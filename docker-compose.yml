@@ -53,9 +53,9 @@ services:
     networks:
       - web
     labels:
-      - traefik.http.routers.hboi.rule=Host(`cv.lucabergman.nl`)
-      - traefik.http.routers.hboi.tls=true
-      - traefik.http.routers.hboi.tls.certresolver=lets-encrypt
+      - traefik.http.routers.cv.rule=Host(`cv.lucabergman.nl`)
+      - traefik.http.routers.cv.tls=true
+      - traefik.http.routers.cv.tls.certresolver=lets-encrypt
       - traefik.port=80
 
       
