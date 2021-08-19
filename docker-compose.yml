@@ -23,6 +23,41 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 
+  sjuben:
+    image: spark156/money-wasted-on-swap-fiets-counter
+    container_name: sjuben
+    restart: unless-stopped
+    networks: 
+      - web
+    labels:
+      - traefik.http.routers.sjuben.rule=Host(`sjuben.lucabergman.nl`)
+      - traefik.http.routers.sjuben.tls=true
+      - traefik.http.routers.sjuben.tls.certresolver=lets-encrypt
+      - traefik.port=80
+
+  bhoi-domeinbeschrijving:
+    image: spark156/hboi-domeinbeschrijving
+    container_name: hboi-domeinbeschrijving
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - traefik.http.routers.hboi.rule=Host(`hboi.lucabergman.nl`)
+      - traefik.http.routers.hboi.tls=true
+      - traefik.http.routers.hboi.tls.certresolver=lets-encrypt
+      - traefik.port=80
+
+  cv:
+    image: spark156/curriculum-vitea
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - traefik.http.routers.hboi.rule=Host(`cv.lucabergman.nl`)
+      - traefik.http.routers.hboi.tls=true
+      - traefik.http.routers.hboi.tls.certresolver=lets-encrypt
+      - traefik.port=80
+
       
 networks:
   web: 
