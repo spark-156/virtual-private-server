@@ -106,8 +106,11 @@ services:
       
 
 networks:
-  web: 
-
-volumes:
-  portfolio-database:
-  portfolio-backend:
+  web:
+    external: true
+  internal:
+    external: false
+    
+# volumes:
+#   portfolio-database:
+#   portfolio-backend:
