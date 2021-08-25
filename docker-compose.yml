@@ -19,10 +19,11 @@ services:
   watchtower:
     image: v2tec/watchtower
     container_name: watchtower
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=false
   sjuben:
     image: spark156/money-wasted-on-swap-fiets-counter
     container_name: sjuben
