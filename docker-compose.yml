@@ -72,7 +72,6 @@ services:
       - web
     labels:
       - traefik.http.routers.portfolio-backend.tls=true
-      - traefik.http.routers.portfolio-backend.rule=Host(`www.lucabergman.nl`)
       - traefik.http.routers.portfolio-backend.rule=PathPrefix(`/api/v1`)
       - traefik.http.middlewares.backendpathstrip.stripprefix.prefixes=/api/v1
       - traefik.http.routers.portfolio-backend.middlewares=backendpathstrip@docker
