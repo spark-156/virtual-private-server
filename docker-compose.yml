@@ -71,13 +71,13 @@ services:
     networks:
       - web
     labels:
-      traefik.http.routers.portfolio-backend.tls: true
-      traefik.http.routers.portfolio-backend.rule: Host(`www.lucabergman.nl`)
-      traefik.http.routers.portfolio-backend.rule: PathPrefix(`/api/v1`)
-      traefik.http.middlewares.backendpathstrip.stripprefix.prefixes: /api/v1
-      traefik.http.routers.portfolio-backend.middlewares: backendpathstrip@docker
-      traefik.http.services.portfolio-backend.loadbalancer.server.port: 3000
-      traefik.port: 80
+      - traefik.http.routers.portfolio-backend.tls=true
+      - traefik.http.routers.portfolio-backend.rule=Host(`www.lucabergman.nl`)
+      - traefik.http.routers.portfolio-backend.rule=PathPrefix(`/api/v1`)
+      - traefik.http.middlewares.backendpathstrip.stripprefix.prefixes=/api/v1
+      - traefik.http.routers.portfolio-backend.middlewares=backendpathstrip@docker
+      - traefik.http.services.portfolio-backend.loadbalancer.server.port=3000
+      - traefik.port=80
 
   portfolio-database:
     image: postgres
@@ -96,13 +96,13 @@ services:
     networks:
       - web
     labels: 
-      traefik.enable: true
-      traefik.http.routers.portfolio-frontend.rule: Host(`www.lucabergman.nl`)
-      traefik.http.routers.portfolio-frontend.entrypoints: web
-      traefik.http.services.portfolio-frontend.loadbalancer.server.port: 3000
-      traefik.http.routers.portfolio-frontend.tls: true
-      traefik.http.routers.portfolio-frontend.tls.certresolver: lets-encrypt
-      traefik.port: 80
+      - traefik.enable=true
+      - traefik.http.routers.portfolio-frontend.rule=Host(`www.lucabergman.nl`)
+      - traefik.http.routers.portfolio-frontend.entrypoints=web
+      - traefik.http.services.portfolio-frontend.loadbalancer.server.port=3000
+      - traefik.http.routers.portfolio-frontend.tls=true
+      - traefik.http.routers.portfolio-frontend.tls.certresolver=lets-encrypt
+      - traefik.port=80
       
 
 networks:
