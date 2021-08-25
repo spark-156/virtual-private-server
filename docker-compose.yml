@@ -58,6 +58,57 @@ services:
       - traefik.http.routers.cv.tls.certresolver=lets-encrypt
       - traefik.port=80
 
+  portfolio-backend:
+    image: spark156/portfolio-backend
+    restart: unless-stopped
+    depends_on:
+      - portfolio-database
+    environment: 
+      DATABASE_URL: "postgres://{username}:{password}@postgres:5432/{database (same as username)}" # replace username and password including brackets with username and password
+      JWT_SECRET: "secret" # replace secret with your own secret
+    volumes:
+      - portfolio-backend:/usr/src/app
+    networks:
+      - web
+    labels:
+      traefik.http.routers.portfolio-backend.tls: true
+      traefik.http.routers.portfolio-backend.tls.certresolver: lets-encrypt
+      traefik.http.routers.portfolio-backend.rule: Host(`www.lucabergman.nl`)
+      traefik.http.routers.portfolio-backend.rule: PathPrefix(`/api/v1`)
+      traefik.http.middlewares.backendpathstrip.stripprefix.prefixes: /api/v1
+      traefik.http.routers.portfolio-backend.middlewares: backendpathstrip@docker
+      traefik.http.services.portfolio-backend.loadbalancer.server.port: 3000
+      traefik.port: 80
+
+  portfolio-database:
+    image: postgres
+    environment:
+      POSTGRES_USER: portfolio # replace with your own username and make sure it matches the database and username vars in database backend
+      POSTGRES_PASSWORD: "password" # replace with your own password and make sure it matches with the password on portfolio-backend
+    volumes:
+      - portfolio-database:/var/lib/postgresql/data
+  
+  portfolio-frontend:
+    image: spark156/portfolio-frontend
+    environment:
+      HOST: https://www.lucabergman.nl
+    depends_on: 
+      - portfolio-backend
+    networks:
+      - web
+    labels: 
+      traefik.enable: true
+      traefik.http.routers.portfolio-frontend.rule: Host(`www.lucabergman.nl`)
+      traefik.http.routers.portfolio-frontend.entrypoints: web
+      traefik.http.services.portfolio-frontend.loadbalancer.server.port: 3000
+      traefik.http.routers.portfolio-frontend.tls: true
+      traefik.http.routers.portfolio-frontend.tls.certresolver: lets-encrypt
+      traefik.port: 80
       
+
 networks:
   web: 
+
+volumes:
+  portfolio-database:
+  portfolio-backend:
