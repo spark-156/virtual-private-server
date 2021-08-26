@@ -77,6 +77,7 @@ services:
       - traefik.http.routers.portfolio-backend.tls=true
       - traefik.http.routers.portfolio-backend.rule=Host(`www.lucabergman.nl`) && PathPrefix(`/api/v1`)
       - traefik.http.routers.portfolio-backend.entrypoints=web
+      - traefik.http.services.portfolio-backend.loadbalancer.server.port=3000
       - traefik.http.routers.portfolio-backend.tls.certresolver=lets-encrypt
       - traefik.http.middlewares.backendpathstrip.stripprefix.prefixes=/api/v1
       - traefik.http.routers.portfolio-backend.middlewares=backendpathstrip@docker
@@ -104,6 +105,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.portfolio-frontend.rule=Host(`www.lucabergman.nl`)
       - traefik.http.routers.portfolio-frontend.entrypoints=web
+      - traefik.http.services.portfolio-frontend.loadbalancer.server.port=3000
       - traefik.http.routers.portfolio-frontend.tls=true
       - traefik.http.routers.portfolio-frontend.tls.certresolver=lets-encrypt
       - traefik.port=80
