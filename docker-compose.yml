@@ -71,6 +71,7 @@ services:
       - portfolio-backend:/usr/src/app
     networks:
       - web
+      - internal
     labels:
       - traefik.enable=true
       - traefik.http.routers.portfolio-backend.tls=true
@@ -79,13 +80,15 @@ services:
       - traefik.http.routers.portfolio-backend.tls.certresolver=lets-encrypt
       - traefik.http.middlewares.backendpathstrip.stripprefix.prefixes=/api/v1
       - traefik.http.routers.portfolio-backend.middlewares=backendpathstrip@docker
-      - traefik.port=3000
+      - traefik.port=80
 
   portfolio-database:
     image: postgres
     environment:
       POSTGRES_USER: portfolio # replace with your own username and make sure it matches the database and username vars in database backend
       POSTGRES_PASSWORD: "password" # replace with your own password and make sure it matches with the password on portfolio-backend
+    networks:
+      - internal
     volumes:
       - portfolio-database:/var/lib/postgresql/data
   
@@ -103,7 +106,7 @@ services:
       - traefik.http.routers.portfolio-frontend.entrypoints=web
       - traefik.http.routers.portfolio-frontend.tls=true
       - traefik.http.routers.portfolio-frontend.tls.certresolver=lets-encrypt
-      - traefik.port=3000
+      - traefik.port=80
       
 
 networks:
@@ -112,6 +115,6 @@ networks:
   internal:
     external: false
     
-# volumes:
-#   portfolio-database:
-#   portfolio-backend:
+volumes:
+  portfolio-database:
+  portfolio-backend:
