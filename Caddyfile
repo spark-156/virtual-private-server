@@ -31,7 +31,7 @@ www.localhost {
       roll_size 1MiB
     }
   }
-  handle /api/v1 {
+  handle /api/v1/* {
     reverse_proxy http://portfolio-backend:3000
   }
   reverse_proxy http://portfolio-frontend:3000
