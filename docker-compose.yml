@@ -1,3 +1,7 @@
+# ATTENTION
+# you must rewrite all evironment variables that contain a variable in brackets: " {variable} "
+# replace everything between the quotes with your variable 
+
 version: "3"
 
 services:
@@ -21,38 +25,38 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     
   sjuben:
-    image: spark156/money-wasted-on-swap-fiets-counter
+    image: spark156/money-wasted-on-swap-fiets-counter:latest
     restart: unless-stopped
     
   bhoi-domeinbeschrijving:
-    image: spark156/hboi-domeinbeschrijving
+    image: spark156/hboi-domeinbeschrijving:latest
     restart: unless-stopped
 
   cv:
-    image: spark156/curriculum-vitea
+    image: spark156/curriculum-vitea:latest
     restart: unless-stopped
 
   portfolio-backend:
-    image: spark156/portfolio-backend
+    image: spark156/portfolio-backend:latest
     restart: unless-stopped
     depends_on:
       - portfolio-database
     environment: 
       DATABASE_URL: "postgres://{portfolio}:{password}@portfolio-database:5432/{portfolio (place the same here as at username)}" # replace username and password including brackets with username and password
-      JWT_SECRET: "secret" # replace secret with your own secret
+      JWT_SECRET: "{secret}" # replace secret with your own secret
     volumes:
       - portfolio-backend:/usr/src/app
 
   portfolio-database:
     image: postgres
     environment:
-      POSTGRES_USER: "portfolio" # replace with your own username and make sure it matches the database and username vars in database backend
-      POSTGRES_PASSWORD: "password" # replace with your own password and make sure it matches with the password on portfolio-backend
+      POSTGRES_USER: "{portfolio}" # replace with your own username and make sure it matches the database and username vars in database backend
+      POSTGRES_PASSWORD: "{password}" # replace with your own password and make sure it matches with the password on portfolio-backend
     volumes:
       - portfolio-database:/var/lib/postgresql/data
   
   portfolio-frontend:
-    image: spark156/portfolio-frontend
+    image: spark156/portfolio-frontend:latest
     environment:
       HOST: http://portfolio-backend 
     depends_on: 
