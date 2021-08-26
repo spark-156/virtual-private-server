@@ -74,10 +74,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.portfolio-backend.tls=true
-      - traefik.http.routers.portfolio-backend.rule=Host(`www.lucabergman.nl`)
+      - traefik.http.routers.portfolio-backend.rule=Host(`www.lucabergman.nl`) && PathPrefix(`/api/v1`)
       - traefik.http.routers.portfolio-backend.entrypoints=web
       - traefik.http.routers.portfolio-backend.tls.certresolver=lets-encrypt
-      - traefik.http.routers.portfolio-backend.rule=PathPrefix(`/api/v1`)
       - traefik.http.middlewares.backendpathstrip.stripprefix.prefixes=/api/v1
       - traefik.http.routers.portfolio-backend.middlewares=backendpathstrip@docker
       - traefik.port=3000
@@ -93,7 +92,7 @@ services:
   portfolio-frontend:
     image: spark156/portfolio-frontend
     environment:
-      HOST: http://
+      HOST: https://www.lucabergman.nl`
     depends_on: 
       - portfolio-backend
     networks:
