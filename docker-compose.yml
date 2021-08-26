@@ -58,7 +58,7 @@ services:
   portfolio-frontend:
     image: spark156/portfolio-frontend:latest
     environment:
-      HOST: http://portfolio-backend 
+      HOST: http://portfolio-backend:3000
     depends_on: 
       - portfolio-backend
     
