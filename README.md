@@ -8,29 +8,22 @@ This repo houses my config files for my vps. My vps uses docker, docker-compose,
 [docker-compose](https://docs.docker.com/engine/install/ubuntu/)
 [docker-compose](https://docs.docker.com/compose/install/)
 
-2. RUN `make setup` before launching docker-compose!
+**Dont run `docker-compose up` just yet!**
 
-3. Allow http and https to your host machine and point your domain name to your static public IP. Make sure the http and https ports are forwarded to your host machine as well. Non-static Ip's require more work but I will not be covering that here.
+2. RUN `make setup` or the equivalent `docker volume create vps-caddy-data`. We need to make sure that caddy has a permanent place to store ssl certificates
 
-4. Generate an httppassword and username combination. I like to use the deb package `apache2-utils` `htpasswd -nb admin secure_password` command where `secure_password` is your secure password.
+3. Allow http and https to your host machine and point your domain name to your static public IP. Make sure the http and https ports are forwarded to your host machine as well. Non-static Ip's require more work but I will not be covering that here. Look up Duck-DNS as a good research starting point if you wish to host like I do with a non-static Ip. 
 
-5. Go to `traefik.toml` and add your email address on line 15.
-6. Go to `traefik_dynamic.toml` and add your http password and user combination in the quotes on line 3.
-7. Add your host domain name for monitoring your traefik via the online webportal on line 7. I recommend `monitor.your_domain_name`.
-8. Add the docker containers you want to the docker-compose file. If you want them accessable through https online add the following labels and networks:
+4. If you wish to add your own service then just add it to the docker compose services, no need to forward any ports to the host machine as Caddy can access them directly through the default docker network. Then edit the Caddyfile and add the following:
 ```
-networks: 
-  - web
-labels:
-  - traefik.http.routers.blog.rule=Host(``)
-  - traefik.http.routers.blog.tls=true
-  - traefik.http.routers.blog.tls.certresolver=lets-encrypt
-  - traefik.port=80
+{your_domain_name} {
+  reverse_proxy http://{docker_container_name}:{internal docker port}
+}
 ```
-Make sure to add your own host including subdomain per example: `www.my-portfoliosite.com` or `groceries.my-groceries-web-app.de`.
+&emsp;&emsp;&emsp;Replace all words in brackets with your corresponding values, the internal docker port defaults to 80 so if your port is 80 then you can just remove it including the colon.
 
-9. RUN `docker-compose up -d` to launch all the apps. I use github actions CI/CD to automatically build and push my docker images on a commit to master. Watchtower will see that I pushed a new image and update it with all the original env variables for me. 
+5. RUN `make start` or the equivalent `docker-compose up -d` to launch all the apps. I use github actions CI/CD to automatically build and push my docker images on a commit to master. Watchtower will see that I pushed a new image and update it with all the original env variables for me. 
 
 ## Sources
 
-Followed the guide at: [Digitalocean](https://www.digitalocean.com/community/tutorials/how-to-use-traefik-v2-as-a-reverse-proxy-for-docker-containers-on-ubuntu-20-04 )
+[Caddy documentation](https://caddyserver.com/docs/)

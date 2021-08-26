@@ -1,13 +1,13 @@
 setup:
-	touch acme.json && chmod 600 acme.json
+	docker volume create vps-caddy-data
 
 start:
 	docker-compose up -d
 
-down: 
+down:
 	docker-compose down
 
-restart: down start
-
-logs: 
+logs:
 	docker-compose logs -f
+
+restart: down start
