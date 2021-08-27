@@ -4,7 +4,7 @@ cv.localhost {
       roll_size 1MiB
     }
   }
-  reverse_proxy http://cv
+  reverse_proxy cv
 }
 
 sjuben.localhost {
@@ -13,7 +13,7 @@ sjuben.localhost {
       roll_size 1MiB
     }
   }
-  reverse_proxy http://sjuben
+  reverse_proxy sjuben
 }
 
 hboi.localhost {
@@ -22,7 +22,7 @@ hboi.localhost {
       roll_size 1MiB
     }
   }
-  reverse_proxy http://bhoi-domeinbeschrijving
+  reverse_proxy bhoi-domeinbeschrijving
 }
 
 www.localhost {
@@ -31,8 +31,11 @@ www.localhost {
       roll_size 1MiB
     }
   }
+  rewrite /api/v1 /api/v1/
   handle /api/v1/* {
-    reverse_proxy http://portfolio-backend:3000
+    reverse_proxy portfolio-backend:3000
   }
-  reverse_proxy http://portfolio-frontend:3000
+  handle {
+    reverse_proxy portfolio-frontend:3000
+  }
 }
