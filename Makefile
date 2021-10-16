@@ -1,8 +1,9 @@
-setup:
-	docker volume create vps-caddy-data
 
 start:
 	docker-compose up -d
+
+setup:
+	docker volume create vps-caddy-data
 
 down:
 	docker-compose down
