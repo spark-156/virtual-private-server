@@ -1,5 +1,7 @@
 lucabergman.com {
-  redir lucabergman.nl
+  respond * "Hi I'm a teapot" 418 {
+	  close
+  }
 }
 
 cv.localhost {
