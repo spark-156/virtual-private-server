@@ -1,7 +1,7 @@
 cv.localhost {
   log {
     output file /var/log/cv_access.log {
-      roll_size 1MiB
+      roll_size 10MiB
     }
   }
   reverse_proxy cv
@@ -10,7 +10,7 @@ cv.localhost {
 sjuben.localhost {
   log {
     output file /var/log/sjuben_access.log {
-      roll_size 1MiB
+      roll_size 10MiB
     }
   }
   reverse_proxy sjuben
@@ -19,23 +19,23 @@ sjuben.localhost {
 hboi.localhost {
   log {
     output file /var/log/cv_access.log {
-      roll_size 1MiB
+      roll_size 10MiB
     }
   }
   reverse_proxy bhoi-domeinbeschrijving
 }
 
-www.localhost {
-  log {
-    output file /var/log/www_access.log {
-      roll_size 1MiB
-    }
-  }
-  rewrite /api/v1 /api/v1/
-  handle /api/v1/* {
-    reverse_proxy portfolio-backend:3000
-  }
-  handle {
-    reverse_proxy portfolio-frontend:3000
-  }
-}
+// www.localhost {
+//   log {
+//     output file /var/log/www_access.log {
+//       roll_size 1MiB
+//     }
+//   }
+//   rewrite /api/v1 /api/v1/
+//   handle /api/v1/* {
+//     reverse_proxy portfolio-backend:3000
+//   }
+//   handle {
+//     reverse_proxy portfolio-frontend:3000
+//   }
+// }

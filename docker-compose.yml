@@ -36,35 +36,35 @@ services:
     image: spark156/curriculum-vitea:latest
     restart: unless-stopped
 
-  portfolio-backend:
-    image: spark156/portfolio-backend:latest
-    restart: unless-stopped
-    depends_on:
-      - portfolio-database
-    environment: 
-      DATABASE_URL: "postgres://{portfolio}:{password}@portfolio-database:5432/{portfolio (place the same here as at username)}" # replace username and password including brackets with username and password
-      JWT_SECRET: "{secret}" # replace secret with your own secret
-    volumes:
-      - portfolio-backend:/usr/src/app
+  # portfolio-backend:
+  #   image: spark156/portfolio-backend:latest
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - portfolio-database
+  #   environment: 
+  #     DATABASE_URL: "postgres://{portfolio}:{password}@portfolio-database:5432/{portfolio (place the same here as at username)}" # replace username and password including brackets with username and password
+  #     JWT_SECRET: "{secret}" # replace secret with your own secret
+  #   volumes:
+  #     - portfolio-backend:/usr/src/app
 
-  portfolio-database:
-    image: postgres
-    environment:
-      POSTGRES_USER: "{portfolio}" # replace with your own username and make sure it matches the database and username vars in database backend
-      POSTGRES_PASSWORD: "{password}" # replace with your own password and make sure it matches with the password on portfolio-backend
-    volumes:
-      - portfolio-database:/var/lib/postgresql/data
+  # portfolio-database:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: "{portfolio}" # replace with your own username and make sure it matches the database and username vars in database backend
+  #     POSTGRES_PASSWORD: "{password}" # replace with your own password and make sure it matches with the password on portfolio-backend
+  #   volumes:
+  #     - portfolio-database:/var/lib/postgresql/data
   
-  portfolio-frontend:
-    image: spark156/portfolio-frontend:latest
-    environment:
-      HOST: http://portfolio-backend:3000
-    depends_on: 
-      - portfolio-backend
+  # portfolio-frontend:
+  #   image: spark156/portfolio-frontend:latest
+  #   environment:
+  #     HOST: http://portfolio-backend:3000
+  #   depends_on: 
+  #     - portfolio-backend
     
 volumes:
-  portfolio-database:
-  portfolio-backend:
+  # portfolio-database:
+  # portfolio-backend:
   caddy-data:
     external: 
       name: vps-caddy-data
