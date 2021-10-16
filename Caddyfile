@@ -1,3 +1,7 @@
+lucabergman.com {
+  redir lucabergman.nl
+}
+
 cv.localhost {
   log {
     output file /var/log/cv_access.log {
@@ -24,18 +28,3 @@ hboi.localhost {
   }
   reverse_proxy bhoi-domeinbeschrijving
 }
-
-// www.localhost {
-//   log {
-//     output file /var/log/www_access.log {
-//       roll_size 1MiB
-//     }
-//   }
-//   rewrite /api/v1 /api/v1/
-//   handle /api/v1/* {
-//     reverse_proxy portfolio-backend:3000
-//   }
-//   handle {
-//     reverse_proxy portfolio-frontend:3000
-//   }
-// }
