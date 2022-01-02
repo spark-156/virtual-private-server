@@ -2,7 +2,7 @@ setup:
 	docker network create caddy
 
 caddy-start:
-	docker-compose -f docker-compose.caddy.yml up -d --remove-orphans
+	docker-compose -f docker-compose.caddy.yml up -d
 
 caddy-down: 
 	docker-comopse -f docker-compose.caddy.yml down
@@ -16,7 +16,7 @@ caddy-pull:
 caddy-update: caddy-pull caddy-start
 
 start:
-	docker-compose up -d --remove-orphans
+	docker-compose up -d
 
 down:
 	docker-compose down
