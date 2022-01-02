@@ -19,7 +19,7 @@ services:
       - caddy
     labels:
       caddy: sjuben.lucabergman.nl
-      caddy.reverse_proxy: {{upstreams}}
+      caddy.reverse_proxy: "{{upstreams}}"
     
   hboi-domeinbeschrijving:
     image: spark156/hboi-domeinbeschrijving:latest
@@ -28,7 +28,7 @@ services:
       - caddy
     labels:
       caddy: hboi.lucabergman.nl
-      caddy.reverse_proxy: {{upstreams}}
+      caddy.reverse_proxy: "{{upstreams}}"
 
   cv:
     image: spark156/curriculum-vitea:latest
@@ -37,7 +37,7 @@ services:
       - caddy
     labels:
       caddy: cv.lucabergman.nl
-      caddy.reverse_proxy: {{upstreams}}
+      caddy.reverse_proxy: "{{upstreams}}"
   
   spotify-monthly-backend:
     image: spark156/your-spotify-monthly-backend:latest
@@ -51,7 +51,7 @@ services:
     labels:
       caddy: spotify.lucabergman.nl
       caddy.handle_path: /api/v1/*
-      caddy.handle_path.0_reverse_proxy: {{upstreams}}
+      caddy.handle_path.0_reverse_proxy: "{{upstreams}}"
 
   spotify-monthly-frontend:
     image: spark156/your-spotify-monthly-frontend:latest
@@ -62,7 +62,7 @@ services:
       - caddy
     labels:
       caddy: spotify.lucabergman.nl
-      caddy.reverse_proxy: {{upstreams}}
+      caddy.reverse_proxy: "{{upstreams}}"
 
 
 networks:
