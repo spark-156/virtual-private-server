@@ -2,21 +2,9 @@
 # you must rewrite all evironment variables that contain a variable in brackets: " {variable} "
 # replace everything between the quotes with your variable 
 
-version: "3"
+version: "3.8"
 
-services:
-  caddy:
-    image: caddy:latest
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - $PWD/Caddyfile:/etc/caddy/Caddyfile
-      - caddy-data:/data
-      - caddy-config:/config
-      - $PWD/logs/:/var/log/
-  
+services:  
   watchtower:
     image: v2tec/watchtower
     container_name: watchtower
@@ -27,53 +15,31 @@ services:
   sjuben:
     image: spark156/money-wasted-on-swap-fiets-counter:latest
     restart: unless-stopped
+    networks:
+      - caddy
+    labels:
+      caddy: sjuben.lucabergman.nl
+      caddy.reverse_proxy: "{{upstreams 80}}"
     
-  bhoi-domeinbeschrijving:
+  hboi-domeinbeschrijving:
     image: spark156/hboi-domeinbeschrijving:latest
     restart: unless-stopped
+    networks:
+      - caddy
+    labels:
+      caddy: hboi.lucabergman.nl
+      caddy.reverse_proxy: "{{upstreams 80}}"
 
   cv:
     image: spark156/curriculum-vitea:latest
     restart: unless-stopped
-    
-   maria_db:
-    image: ghcr.io/linuxserver/mariadb
-    container_name: maria_db
-    environment:
-      PUID: 1000
-      PGID: 1000
-      MYSQL_ROOT_PASSWORD: 
-      TZ: Europe/Amsterdam
-      # - MYSQL_DATABASE= #optional
-      # - MYSQL_USER= #optional
-      # - MYSQL_PASSWORD= #optional
-      # - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
-    volumes:
-      - mariadb:/config
-    ports:
-      - 3306:3306
-    restart: unless-stopped
+    networks:
+      - caddy
+    labels:
+      caddy: cv.lucabergman.nl
+      caddy.reverse_proxy: "{{upstreams 80}}"
 
-  wordpress_josephine:
-    container_name: wordpress_josephine
-    image: wordpress
-    restart: always
-    environment:
-      WORDPRESS_DB_HOST: maria_db
-      WORDPRESS_DB_USER: wordpress_josephine
-      WORDPRESS_DB_PASSWORD: 
-      WORDPRESS_DB_NAME: wordpress_josephine
-    volumes:
-      - ./wordpress_josephine/var/www/html:/var/www/html
-    depends_on: 
-      - maria_db
 
-  
-volumes:
-  # portfolio-database:
-  # portfolio-backend:
-  caddy-data:
-    external: 
-      name: vps-caddy-data
-  caddy-config:
-  mariadb:
+networks:
+  caddy:
+    external: true
