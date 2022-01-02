@@ -1,9 +1,22 @@
+setup:
+	docker network create caddy
+
+caddy-start:
+	docker-compose -f docker-compose.caddy.yml up -d --remove-orphans
+
+caddy-down: 
+	docker-comopse -f docker-compose.caddy.yml down
+
+caddy-logs:
+	docker-compose -f docker-compose.caddy.yml logs -f
+
+caddy-pull:
+	docker-compose -f docker-compose.caddy.yml pull
+
+caddy-update: caddy-pull caddy-start
 
 start:
-	docker-compose up -d
-
-setup:
-	docker volume create vps-caddy-data
+	docker-compose up -d --remove-orphans
 
 down:
 	docker-compose down
@@ -11,4 +24,12 @@ down:
 logs:
 	docker-compose logs -f
 
+pull:
+	docker-compose pull
+
+update: pull start
+
 restart: down start
+
+prune-images:
+	docker image prune
