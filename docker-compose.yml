@@ -18,7 +18,7 @@ services:
     networks:
       - caddy
     labels:
-      caddy: sjuben.lucabergman.nl
+      caddy: sjuben.lucabergman.nl, sjuben.lucabergman.com
       caddy.reverse_proxy: "{{upstreams}}"
     
   hboi-domeinbeschrijving:
@@ -27,7 +27,7 @@ services:
     networks:
       - caddy
     labels:
-      caddy: hboi.lucabergman.nl
+      caddy: hboi.lucabergman.nl, hboi.lucabergman.com
       caddy.reverse_proxy: "{{upstreams}}"
 
   cv:
@@ -36,7 +36,7 @@ services:
     networks:
       - caddy
     labels:
-      caddy: cv.lucabergman.nl
+      caddy: cv.lucabergman.nl, cv.lucabergman.com
       caddy.reverse_proxy: "{{upstreams}}"
   
   spotify-monthly-backend:
