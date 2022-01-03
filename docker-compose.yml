@@ -45,11 +45,11 @@ services:
     environment:
       - CLIENT_ID=
       - CLIENT_SECRET=
-      - REDIRECT_URI=https://spotify.lucabergman.nl/api/v1/callback
+      - REDIRECT_URI=https://yourmonthlyplaylist.com/api/v1/callback
     networks:
       - caddy
     labels:
-      caddy: spotify.lucabergman.nl
+      caddy: yourmonthlyplaylist.com
       caddy.handle_path: /api/v1/*
       caddy.handle_path.0_reverse_proxy: "{{upstreams}}"
 
@@ -61,7 +61,7 @@ services:
     networks:
       - caddy
     labels:
-      caddy: spotify.lucabergman.nl
+      caddy: yourmonthlyplaylist.com
       caddy.reverse_proxy: "{{upstreams}}"
 
 
