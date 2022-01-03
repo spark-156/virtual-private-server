@@ -15,6 +15,9 @@ caddy-pull:
 
 caddy-update: caddy-pull caddy-start
 
+watchtower-logs:
+	docker-compose logs -f watchtower
+
 start:
 	docker-compose up -d
 
