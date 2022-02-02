@@ -79,7 +79,7 @@ services:
     networks:
       - caddy
     labels:
-      caddy: www.lucabergman.nl, www.lucabergman.com
+      caddy: www.lucabergman.nl, www.lucabergman.com, lucabergman.nl, lucabergman.com
       caddy.reverse_proxy: "{{upstreams}}"
 
 networks:
