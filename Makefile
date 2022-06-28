@@ -5,7 +5,7 @@ caddy-start:
 	docker-compose -f docker-compose.caddy.yml up -d
 
 caddy-down: 
-	docker-comopse -f docker-compose.caddy.yml down
+	docker-compose -f docker-compose.caddy.yml down
 
 caddy-logs:
 	docker-compose -f docker-compose.caddy.yml logs -f
