@@ -1,5 +1,11 @@
 # Caddyfile
 
+(cloudflare_tls) {
+    tls {
+            dns cloudflare {$TOKEN}
+        }
+}
+
 www.lucabergman.nl {
     redir https://lucabergman.nl
 }
@@ -7,23 +13,17 @@ www.lucabergman.nl {
 lucabergman.nl {
 	reverse_proxy portfolio:80
 
-	tls {
-            dns cloudflare {env.TOKEN}
-        }
+	import cloudflare_tls
 }
 
 sjuben.lucabergman.nl {
     reverse_proxy sjuben:80
 
-    tls {
-            dns cloudflare {env.TOKEN}
-        }
+    import cloudflare_tls
 }
 
 hboi.lucabergman.nl {
     reverse_proxy hboi-domeinbeschrijving:80
 
-    tls {
-            dns cloudflare {env.TOKEN}
-        }
+    import cloudflare_tls
 }
