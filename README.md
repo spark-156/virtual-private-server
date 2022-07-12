@@ -18,4 +18,4 @@ This repo houses my config files for my vps. My vps uses docker, docker-compose 
 
 ## Sources
 
-[lucaslorentz/caddy-docker-proxy documentation](https://github.com/lucaslorentz/caddy-docker-proxy#basic-usage-example-using-docker-compose)
+[Running caddy as a reverse proxy with cloudflare dns](https://blog.atkinson.cloud/posts/2021/02/running-caddy-as-a-reverse-proxy-with-cloudflare-dns/)
