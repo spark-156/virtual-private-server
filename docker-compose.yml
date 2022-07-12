@@ -17,70 +17,30 @@ services:
     restart: unless-stopped
     networks:
       - caddy
-    labels:
-      caddy: sjuben.lucabergman.nl, sjuben.lucabergman.com
-      caddy.reverse_proxy: "{{upstreams}}"
     
   hboi-domeinbeschrijving:
     image: spark156/hboi-domeinbeschrijving:latest
     restart: unless-stopped
     networks:
       - caddy
-    labels:
-      caddy: hboi.lucabergman.nl, hboi.lucabergman.com
-      caddy.reverse_proxy: "{{upstreams}}"
 
-  cv:
-    image: spark156/curriculum-vitea:latest
-    restart: unless-stopped
-    networks:
-      - caddy
-    labels:
-      caddy: cv.lucabergman.nl, cv.lucabergman.com
-      caddy.reverse_proxy: "{{upstreams}}"
-  
-  spotify-monthly-backend:
-    image: spark156/your-monthly-playlist-backend:latest
-    restart: unless-stopped
-    environment:
-      - CLIENT_ID=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
-      - REDIRECT_URI=https://yourmonthlyplaylist.com/api/v1/callback
-    networks:
-      - caddy
-    labels:
-      caddy: yourmonthlyplaylist.com
-      caddy.handle_path: /api/v1/*
-      caddy.handle_path.0_reverse_proxy: "{{upstreams}}"
+  # cv:
+  #   image: spark156/curriculum-vitea:latest
+  #   restart: unless-stopped
+  #   networks:
+  #     - caddy
 
-  spotify-monthly-frontend:
-    image: spark156/your-monthly-playlist-frontend:latest
-    restart: unless-stopped
-    depends_on:
-      - spotify-monthly-backend
-    networks:
-      - caddy
-    labels:
-      caddy: yourmonthlyplaylist.com
-      caddy.reverse_proxy: "{{upstreams}}"
-
-  vue-to-do-app:
-    image: spark156/vue-to-do-app-frontend:latest
-    restart: unless-stopped
-    networks:
-      - caddy
-    labels:
-      caddy: todo.lucabergman.nl, todo.lucabergman.com
-      caddy.reverse_proxy: "{{upstreams}}"
+  # vue-to-do-app:
+  #   image: spark156/vue-to-do-app-frontend:latest
+  #   restart: unless-stopped
+  #   networks:
+  #     - caddy
 
   portfolio:
     image: spark156/portfolio-frontend:latest
     restart: unless-stopped
     networks:
       - caddy
-    labels:
-      caddy: www.lucabergman.nl, www.lucabergman.com, lucabergman.nl, lucabergman.com
-      caddy.reverse_proxy: "{{upstreams}}"
 
 networks:
   caddy:
