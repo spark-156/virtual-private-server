@@ -1,23 +1,20 @@
-version: "3.7"
+version: "3.4"
 services:
   caddy:
-    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caddy
+    restart: always
     ports:
       - 80:80
       - 443:443
-    environment:
-      - CADDY_INGRESS_NETWORKS=caddy
-    networks:
-      - caddy
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - caddy_data:/data
-    restart: unless-stopped
+      - ./config:/config
+      - ./data:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile
 
 networks:
-  caddy:
-    external: true
-
-volumes:
-  caddy_data: {}
-  
+  default:
+    external:
+      name: caddy

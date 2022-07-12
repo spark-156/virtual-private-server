@@ -1,0 +1,29 @@
+# Caddyfile
+
+www.lucabergman.nl {
+    redir https://lucabergman.nl
+}
+
+lucabergman.nl {
+	reverse_proxy portfolio:80
+
+	tls {
+            dns cloudflare {env.TOKEN}
+        }
+}
+
+sjuben.lucabergman.nl {
+    reverse_proxy sjuben:80
+
+    tls {
+            dns cloudflare {env.TOKEN}
+        }
+}
+
+hboi.lucabergman.nl {
+    reverse_proxy hboi-domeinbeschrijving:80
+
+    tls {
+            dns cloudflare {env.TOKEN}
+        }
+}
