@@ -22,8 +22,8 @@ sjuben.lucabergman.nl {
     import cloudflare_tls
 }
 
-// hboi.lucabergman.nl {
-//     reverse_proxy hboi-domeinbeschrijving:80
-
-//     import cloudflare_tls
-// }
+# hboi.lucabergman.nl {
+#    reverse_proxy hboi-domeinbeschrijving:80
+#
+#    import cloudflare_tls
+# }
