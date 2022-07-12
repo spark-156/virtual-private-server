@@ -30,14 +30,14 @@ services:
       caddy: hboi.lucabergman.nl
       caddy.reverse_proxy: "{{upstreams}}"
 
-  cv:
-    image: spark156/curriculum-vitea:latest
-    restart: unless-stopped
-    networks:
-      - caddy
-    labels:
-      caddy: cv.lucabergman.nl
-      caddy.reverse_proxy: "{{upstreams}}"
+#   cv:
+#     image: spark156/curriculum-vitea:latest
+#     restart: unless-stopped
+#     networks:
+#       - caddy
+#     labels:
+#       caddy: cv.lucabergman.nl
+#       caddy.reverse_proxy: "{{upstreams}}"
   
 #   spotify-monthly-backend:
 #     image: spark156/your-monthly-playlist-backend:latest
@@ -64,14 +64,14 @@ services:
 #       caddy: yourmonthlyplaylist.com
 #       caddy.reverse_proxy: "{{upstreams}}"
 
-  vue-to-do-app:
-    image: spark156/vue-to-do-app-frontend:latest
-    restart: unless-stopped
-    networks:
-      - caddy
-    labels:
-      caddy: todo.lucabergman.nl
-      caddy.reverse_proxy: "{{upstreams}}"
+#   vue-to-do-app:
+#     image: spark156/vue-to-do-app-frontend:latest
+#     restart: unless-stopped
+#     networks:
+#       - caddy
+#     labels:
+#       caddy: todo.lucabergman.nl
+#       caddy.reverse_proxy: "{{upstreams}}"
 
   portfolio:
     image: spark156/portfolio-frontend:latest
