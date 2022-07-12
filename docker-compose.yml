@@ -14,11 +14,11 @@ services:
     networks:
       - caddy
     
-  hboi-domeinbeschrijving:
-    image: spark156/hboi-domeinbeschrijving:latest
-    restart: unless-stopped
-    networks:
-      - caddy
+  # hboi-domeinbeschrijving:
+  #   image: spark156/hboi-domeinbeschrijving:latest
+  #   restart: unless-stopped
+  #   networks:
+  #     - caddy
 
   # cv:
   #   image: spark156/curriculum-vitea:latest
