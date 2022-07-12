@@ -2,7 +2,7 @@ setup:
 	docker network create caddy
 
 caddy-start:
-	docker-compose -f docker-compose.caddy.yml up -d --build
+	docker compose -f docker-compose.caddy.yml up -d --build
 
 caddy-down: 
 	docker compose -f docker-compose.caddy.yml down
