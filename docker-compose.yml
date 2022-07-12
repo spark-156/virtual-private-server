@@ -1,7 +1,3 @@
-# ATTENTION
-# you must rewrite all evironment variables that contain a variable in brackets: " {variable} "
-# replace everything between the quotes with your variable 
-
 version: "3.8"
 
 services:  
