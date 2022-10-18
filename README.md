@@ -5,7 +5,7 @@ This repo houses my config files for my vps. My vps uses docker, docker-compose 
 ## Install
 
 1. Make sure docker and docker-compose are installed per the following instructions (make sure you use your own distro):
-[docker-compose](https://docs.docker.com/engine/install/ubuntu/)
+[docker](https://docs.docker.com/engine/install/ubuntu/) & 
 [docker-compose](https://docs.docker.com/compose/install/)
 
     **Dont run `docker-compose up` just yet!**
