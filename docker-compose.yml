@@ -1,43 +1,42 @@
-version: "3.8"
-
 services:  
-  watchtower:
-    image: v2tec/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    
-  sjuben:
-    image: spark156/money-wasted-on-swap-fiets-counter:latest
-    restart: unless-stopped
-    networks:
-      - caddy
-    
-  # hboi-domeinbeschrijving:
-  #   image: spark156/hboi-domeinbeschrijving:latest
+  # watchtower:
+  #   image: v2tec/watchtower
+  #   container_name: watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  
+  # sjuben:
+  #   image: spark156/money-wasted-on-swap-fiets-counter:latest
   #   restart: unless-stopped
   #   networks:
   #     - caddy
+  
+# hboi-domeinbeschrijving:
+#   image: spark156/hboi-domeinbeschrijving:latest
+#   restart: unless-stopped
+#   networks:
+#     - caddy
 
-  # cv:
-  #   image: spark156/curriculum-vitea:latest
-  #   restart: unless-stopped
-  #   networks:
-  #     - caddy
+# cv:
+#   image: spark156/curriculum-vitea:latest
+#   restart: unless-stopped
+#   networks:
+#     - caddy
 
-  # vue-to-do-app:
-  #   image: spark156/vue-to-do-app-frontend:latest
-  #   restart: unless-stopped
-  #   networks:
-  #     - caddy
+# vue-to-do-app:
+#   image: spark156/vue-to-do-app-frontend:latest
+#   restart: unless-stopped
+#   networks:
+#     - caddy
 
-  portfolio:
-    image: spark156/portfolio-frontend:latest
-    restart: unless-stopped
-    networks:
-      - caddy
+# portfolio:
+#   image: spark156/portfolio-frontend:latest
+#   restart: unless-stopped
+#   networks:
+#     - caddy
 
 networks:
   caddy:
     external: true
+    name: caddy
