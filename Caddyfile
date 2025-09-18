@@ -6,21 +6,21 @@
         }
 }
 
-www.lucabergman.nl {
-    redir https://lucabergman.nl
-}
+# www.lucabergman.nl {
+#     redir https://lucabergman.nl
+# }
 
-lucabergman.nl {
-	reverse_proxy portfolio:80
+# lucabergman.nl {
+# 	reverse_proxy portfolio:80
+# 
+# 	import cloudflare_tls
+# }
 
-	import cloudflare_tls
-}
-
-sjuben.lucabergman.nl {
-    reverse_proxy sjuben:80
-
-    import cloudflare_tls
-}
+# sjuben.lucabergman.nl {
+#     reverse_proxy sjuben:80
+# 
+#     import cloudflare_tls
+# }
 
 # hboi.lucabergman.nl {
 #    reverse_proxy hboi-domeinbeschrijving:80
