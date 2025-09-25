@@ -55,6 +55,6 @@ services:
 #     - caddy
 
 networks:
-  caddy:
+  default:
     external: true
-    name: caddy
+    name: proxy
