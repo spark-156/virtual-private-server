@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+    <link rel="preconnect" href="https://www.googletagmanager.com/" crossorigin />
+    <link rel='dns-prefetch' href='https://www.googletagmanager.com/' />
+    <link rel="preconnect" href="https://mail.pimylifeup.com/" crossorigin />
+    <link rel="dns-prefetch" href="https://mail.pimylifeup.com/" />
+    
+    <meta name="fediverse:creator" content="@pimylifeup@mastodon.social">
+
+	<script data-no-optimize="1" data-cfasync="false">!function(){"use strict";const t={adt_ei:{identityApiKey:"plainText",source:"url",type:"plaintext",priority:1},adt_eih:{identityApiKey:"sha256",source:"urlh",type:"hashed",priority:2},sh_kit:{identityApiKey:"sha256",source:"urlhck",type:"hashed",priority:3}},e=Object.keys(t);function i(t){return function(t){const e=t.match(/((?=([a-z0-9._!#$%+^&*()[\]<>-]+))\2@[a-z0-9._-]+\.[a-z0-9._-]+)/gi);return e?e[0]:""}(function(t){return t.replace(/\s/g,"")}(t.toLowerCase()))}!async function(){const n=new URL(window.location.href),o=n.searchParams;let a=null;const r=Object.entries(t).sort(([,t],[,e])=>t.priority-e.priority).map(([t])=>t);for(const e of r){const n=o.get(e),r=t[e];if(!n||!r)continue;const c=decodeURIComponent(n),d="plaintext"===r.type&&i(c),s="hashed"===r.type&&c;if(d||s){a={value:c,config:r};break}}if(a){const{value:t,config:e}=a;window.adthrive=window.adthrive||{},window.adthrive.cmd=window.adthrive.cmd||[],window.adthrive.cmd.push(function(){window.adthrive.identityApi({source:e.source,[e.identityApiKey]:t},({success:i,data:n})=>{i?window.adthrive.log("info","Plugin","detectEmails",`Identity API called with ${e.type} email: ${t}`,n):window.adthrive.log("warning","Plugin","detectEmails",`Failed to call Identity API with ${e.type} email: ${t}`,n)})})}!function(t,e){const i=new URL(e);t.forEach(t=>i.searchParams.delete(t)),history.replaceState(null,"",i.toString())}(e,n)}()}();
+</script><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script data-no-optimize="1" data-cfasync="false">
+(function(w, d) {
+	w.adthrive = w.adthrive || {};
+	w.adthrive.cmd = w.adthrive.cmd || [];
+	w.adthrive.plugin = 'adthrive-ads-3.9.0';
+	w.adthrive.host = 'ads.adthrive.com';
+	w.adthrive.integration = 'plugin';
+
+	var commitParam = (w.adthriveCLS && w.adthriveCLS.bucket !== 'prod' && w.adthriveCLS.branch) ? '&commit=' + w.adthriveCLS.branch : '';
+
+	var s = d.createElement('script');
+	s.async = true;
+	s.referrerpolicy='no-referrer-when-downgrade';
+	s.src = 'https://' + w.adthrive.host + '/sites/5c49e4afdf7d2523f3865216/ads.min.js?referrer=' + w.encodeURIComponent(w.location.href) + commitParam + '&cb=' + (Math.floor(Math.random() * 100) + 1) + '';
+	var n = d.getElementsByTagName('script')[0];
+	n.parentNode.insertBefore(s, n);
+})(window, document);
+</script>
+<link rel="dns-prefetch" href="https://ads.adthrive.com/"><link rel="preconnect" href="https://ads.adthrive.com/"><link rel="preconnect" href="https://ads.adthrive.com/" crossorigin>
+	<title>Setting up a WireGuard VPN using Docker - Pi My Life Up</title>
+	<meta name="description" content="In this tutorial, we will be showing you how to set up and install WireGuard on your device by using a Docker container." />
+	<link rel="canonical" href="https://pimylifeup.com/wireguard-docker/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Running WireGuard in a Docker container" />
+	<meta property="og:description" content="Easy way to run a WireGuard VPN" />
+	<meta property="og:url" content="https://pimylifeup.com/wireguard-docker/" />
+	<meta property="og:site_name" content="Pi My Life Up" />
+	<meta property="article:publisher" content="https://www.facebook.com/pimylifeup" />
+	<meta property="article:published_time" content="2024-01-18T08:13:54+00:00" />
+	<meta property="article:modified_time" content="2025-01-19T08:34:40+00:00" />
+	<meta property="og:image" content="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-NoWM.jpg" />
+	<meta property="og:image:width" content="728" />
+	<meta property="og:image:height" content="400" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="author" content="Emmet" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:creator" content="@pimylifeup" />
+	<meta name="twitter:site" content="@pimylifeup" />
+	<meta name="twitter:label1" content="Written by" />
+	<meta name="twitter:data1" content="Emmet" />
+	<meta name="twitter:label2" content="Est. reading time" />
+	<meta name="twitter:data2" content="9 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://pimylifeup.com/wireguard-docker/#article","isPartOf":{"@id":"https://pimylifeup.com/wireguard-docker/"},"author":{"name":"Emmet","@id":"https://pimylifeup.com/#/schema/person/2209b69d107d64425e1fce1014596f3d"},"headline":"Setting up a WireGuard VPN using Docker","datePublished":"2024-01-18T08:13:54+00:00","dateModified":"2025-01-19T08:34:40+00:00","mainEntityOfPage":{"@id":"https://pimylifeup.com/wireguard-docker/"},"wordCount":1570,"commentCount":9,"publisher":{"@id":"https://pimylifeup.com/#organization"},"image":{"@id":"https://pimylifeup.com/wireguard-docker/#primaryimage"},"thumbnailUrl":"https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-NoWM.jpg","articleSection":["Docker","Linux Guides"],"inLanguage":"en-US","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://pimylifeup.com/wireguard-docker/#respond"]}]},{"@type":"WebPage","@id":"https://pimylifeup.com/wireguard-docker/","url":"https://pimylifeup.com/wireguard-docker/","name":"Setting up a WireGuard VPN using Docker - Pi My Life Up","isPartOf":{"@id":"https://pimylifeup.com/#website"},"primaryImageOfPage":{"@id":"https://pimylifeup.com/wireguard-docker/#primaryimage"},"image":{"@id":"https://pimylifeup.com/wireguard-docker/#primaryimage"},"thumbnailUrl":"https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-NoWM.jpg","datePublished":"2024-01-18T08:13:54+00:00","dateModified":"2025-01-19T08:34:40+00:00","description":"In this tutorial, we will be showing you how to set up and install WireGuard on your device by using a Docker container.","breadcrumb":{"@id":"https://pimylifeup.com/wireguard-docker/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://pimylifeup.com/wireguard-docker/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://pimylifeup.com/wireguard-docker/#primaryimage","url":"https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-NoWM.jpg","contentUrl":"https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-NoWM.jpg","width":728,"height":400,"caption":"WireGuard Docker"},{"@type":"BreadcrumbList","@id":"https://pimylifeup.com/wireguard-docker/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pimylifeup.com/"},{"@type":"ListItem","position":2,"name":"Setting up a WireGuard VPN using Docker"}]},{"@type":"WebSite","@id":"https://pimylifeup.com/#website","url":"https://pimylifeup.com/","name":"Pi My Life Up","description":"","publisher":{"@id":"https://pimylifeup.com/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://pimylifeup.com/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https://pimylifeup.com/#organization","name":"Pi My Life Up","url":"https://pimylifeup.com/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://pimylifeup.com/#/schema/logo/image/","url":"https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon.png","contentUrl":"https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon.png","width":512,"height":512,"caption":"Pi My Life Up"},"image":{"@id":"https://pimylifeup.com/#/schema/logo/image/"},"sameAs":["https://www.facebook.com/pimylifeup","https://x.com/pimylifeup","https://www.instagram.com/pimylifeup/","https://www.pinterest.com/pimylifeup","https://www.youtube.com/channel/UC7NMrNa-RgcVeD__l_uPJTg"]},{"@type":"Person","@id":"https://pimylifeup.com/#/schema/person/2209b69d107d64425e1fce1014596f3d","name":"Emmet","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://pimylifeup.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/5ca3dde7beacda424086f2a1f134e6ed5d1245d391ac8eae27548eb10b79ba25?s=96&d=identicon&r=g","contentUrl":"https://secure.gravatar.com/avatar/5ca3dde7beacda424086f2a1f134e6ed5d1245d391ac8eae27548eb10b79ba25?s=96&d=identicon&r=g","caption":"Emmet"},"url":"https://pimylifeup.com/author/emmet/"}]}</script>
+
+
+<link rel="alternate" type="application/rss+xml" title="Pi My Life Up &raquo; Feed" href="https://pimylifeup.com/feed/" />
+<link rel='stylesheet' id='lbb-theme-style-css' href='https://pimylifeup.com/wp-content/themes/lbb-theme-pimylifeup/style.min.css?ver=1.4.31' media='all' />
+<link rel='stylesheet' id='brands-styles-css' href='https://pimylifeup.com/wp-content/plugins/woocommerce/assets/css/brands.css?ver=10.1.2' media='all' />
+<script defer data-domain='pimylifeup.com' data-api='https://s1.pimylifeup.com/api/event' data-cfasync='false' src="https://s1.pimylifeup.com/js/5d7fa109.js"></script>
+<script id="5d7fa109.js-after">
+window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
+</script>
+<script id="wp-hooks-dependency-error-js-after">
+console.error( "Payment gateway with handle 'wc-stripe-blocks-integration' has been deactivated in Cart and Checkout blocks because its dependency 'wp-hooks' is not registered. Read the docs about registering assets for payment methods: https://github.com/woocommerce/woocommerce-blocks/blob/060f63c04f0f34f645200b5d4da9212125c49177/docs/third-party-developers/extensibility/checkout-payment-methods/payment-method-integration.md#registering-assets" );
+</script>
+<meta name='plausible-analytics-version' content='2.3.1' />
+<link rel="icon" href="https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://pimylifeup.com/wp-content/uploads/2021/02/cropped-pi-favicon-1-270x270.png" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8VR4DYQWLR"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8VR4DYQWLR');
+    </script>
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-33486278 single-format-standard wp-custom-logo wp-theme-lbb-theme-pimylifeup theme-lbb-theme-pimylifeup woocommerce-no-js adthrive-cat-docker adthrive-cat-linux-guides">
+<div id="page" class="site">
+    <header id="masthead" class="site-header">
+        <nav id="site-navigation" class="navbar navbar-expand-lg navbar-light">
+            <div class="container nav-container">
+                <div class="nav-wrapper">
+                    <a class="navbar-brand" title="Go to Homepage" href="https://pimylifeup.com/" rel="home">
+                        <img width="160" height="50" src="https://pimylifeup.com/wp-content/uploads/2021/06/pimylifeuplogosmall.png" class="attachment-full size-full" alt="Pi My Life Up" loading="eager" decoding="async" />                    </a>
+
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div id="navbarCollapse" class="collapse navbar-collapse">
+                        <ul id="primary-menu" itemscope itemtype="https://schema.org/SiteNavigationElement" class="navbar-nav mr-auto"><li  id="menu-item-14848" class="highlighted menu-item menu-item-type-custom menu-item-object-custom menu-item-14848 nav-item"><a itemprop="url" href="https://pimylifeup.com/subscribe/" class="nav-link"><span itemprop="name">Premium</span></a></li>
+<li  id="menu-item-33457029" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33457029 nav-item"><a itemprop="url" href="https://pimylifeup.com/raspberry-pi-index/" class="nav-link"><span itemprop="name">Raspberry Pi</span></a></li>
+<li  id="menu-item-33470026" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33470026 nav-item current-menu-item active"><a itemprop="url" href="https://pimylifeup.com/linux-index/" class="nav-link"><span itemprop="name">Linux</span></a></li>
+<li  id="menu-item-33480757" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33480757 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/home-assistant/" class="nav-link"><span itemprop="name">Home Assistant</span></a></li>
+<li  id="menu-item-33479343" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33479343 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/steamdeck/" class="nav-link"><span itemprop="name">Steam Deck</span></a></li>
+<li  id="menu-item-33465488" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown menu-item-33465488 nav-item"><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link" id="menu-item-dropdown-33465488"><span itemprop="name">More</span></a>
+<ul class="dropdown-menu" aria-labelledby="menu-item-dropdown-33465488">
+	<li  id="menu-item-33457030" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33457030 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/arduino-projects/" class="dropdown-item"><span itemprop="name">Arduino</span></a></li>
+	<li  id="menu-item-33457032" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33457032 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/learn-electronics/" class="dropdown-item"><span itemprop="name">Electronics</span></a></li>
+	<li  id="menu-item-33470034" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33470034 nav-item"><a itemprop="url" href="https://pimylifeup.com/coding-index/" class="dropdown-item"><span itemprop="name">Coding</span></a></li>
+	<li  id="menu-item-33495279" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent active menu-item-33495279 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/tutorials/docker/" class="dropdown-item"><span itemprop="name">Docker</span></a></li>
+	<li  id="menu-item-33476258" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33476258 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/windows/" class="dropdown-item"><span itemprop="name">Windows</span></a></li>
+	<li  id="menu-item-33476257" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33476257 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/macos/" class="dropdown-item"><span itemprop="name">macOS</span></a></li>
+	<li  id="menu-item-33466152" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33466152 nav-item"><a itemprop="url" href="https://pimylifeup.com/compilations/" class="dropdown-item"><span itemprop="name">Compilations</span></a></li>
+	<li  id="menu-item-33472130" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-33472130 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/tutorials/" class="dropdown-item"><span itemprop="name">Other Tutorials</span></a></li>
+	<li  id="menu-item-33476256" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33476256 nav-item"><a itemprop="url" href="https://pimylifeup.com/category/archive/" class="dropdown-item"><span itemprop="name">Archive</span></a></li>
+	<li  id="menu-item-33496667" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33496667 nav-item"><a itemprop="url" href="https://pimylifeup.com/courses/" class="dropdown-item"><span itemprop="name">Courses</span></a></li>
+	<li  id="menu-item-16907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16907 nav-item"><a rel="nofollow" itemprop="url" href="https://pimylifeup.com/my-account/" class="dropdown-item"><span itemprop="name">Login</span></a></li>
+</ul>
+</li>
+</ul>                    </div>
+                </div>
+                <div class="mobile-actions d-flex align-items-center">
+                    <div class="user-profile-wrapper dropdown">
+                        <a class="user-profile-btn" href="#" data-toggle="dropdown" title="Profile Options" aria-expanded="false" aria-haspopup="true">
+                           <div class="user-avatar">
+                                                           <i class="fa-sign-in user-avatar-icon"></i>
+                                                       </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right user-dropdown">
+                                                            <a class="dropdown-item" href="/my-account/">Login</a>
+                                                        <div class="dropdown-divider"></div>
+                            <div class="dropdown-item theme-toggle-wrapper">
+                                <span>Theme</span>
+                                <button class="themeToggle" type="button" title="Theme Toggle">
+                                    <i class="fa-themeToggle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="nav-search-bar" class="w-100 h-100 search-nav-bar">
+                        <div class="w-100 d-flex align-items-center">
+                            <form role="search" method="get" class="searchform" action="https://pimylifeup.com/">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-label="Search" placeholder="Search &hellip;" value="" name="s" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-red">
+                <i class="fa-search" aria-hidden="true"></i>
+                <span class="screen-reader-text">Search</span>
+            </button>
+        </div>
+    </div>
+</form>                        </div>
+                    </div>
+
+                    <button id="toggle-search-button" title="Search" class="searchToggle" aria-label="Toggle Search">
+                        <i class="fa-searchToggle"></i>
+                    </button>
+                </div>
+            </div>
+        </nav><!-- #site-navigation -->
+    </header><!-- #masthead -->
+
+    <div id="main-content" class="site-content container">
+                <div class="row">
+    <div id="primary" class="content-area col-lg-8">
+		<main id="main" class="site-main">
+
+		
+<article id="post-33486278" class="post-33486278 post type-post status-publish format-standard has-post-thumbnail hentry category-docker category-linux-guides">
+	<header class="entry-header post-header-outer row">
+		<h1 class="entry-title text-center col-12">Setting up a WireGuard VPN using Docker</h1>			<div class="entry-meta header-meta-tags text-center col-12">
+
+				<!-- Author -->
+				<div class="author-date-container d-flex justify-content-center mb-1">
+					<div class="byline posted-by mx-2"><img alt='Emmet Avatar' src="https://pimylifeup.com/wp-content/uploads/2025/03/Emmet-Young-Profile-Pic-Smaller-lbb-avatar.jpg" class='avatar avatar-48 photo rounded author-avatar' height='48' width='48' /> by <span class="author vcard"><a href="https://pimylifeup.com/emmet" class="fn">Emmet</a></span></div>				</div>
+
+				<!-- date -->
+				<div class="author-date-container d-flex justify-content-center mb-1">
+					<div class="updated-on mx-2 my-2  fa-calendar-alt">Updated <time class="entry-date date updated" datetime="2025-01-19T19:34:40+11:00"> Jan 19, 2025</time></div>				</div>
+				
+				<!-- Categories -->
+				<div class="post-categories" aria-label="Post categories"><a href="https://pimylifeup.com/category/tutorials/docker/" class="category-link  docker" aria-label="Category: Docker"><span class="shine"></span><span class="category-icon" aria-hidden="true"></span><span class="category-name">Docker</span></a><a href="https://pimylifeup.com/category/linux/linux-guides/" class="category-link  linux" aria-label="Category: Linux Guides"><span class="shine"></span><span class="category-icon" aria-hidden="true"></span><span class="category-name">Linux Guides</span></a></div>				
+				<!-- Actions -->
+				<div class="social-share-actions d-flex flex-wrap justify-content-center">
+					<div class='social-share-links mx-2 mx-2'><a rel='nofollow noopener noreferrer' class='social-share-button fa-facebook plausible-event-name=Facebook+Share' title='Share to Facebook' target='_blank' href='https://www.facebook.com/sharer.php?u=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-twitter plausible-event-name=X+Share' title='Share to X' target='_blank' href='https://x.com/intent/tweet?text=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-pinterest plausible-event-name=Pinterest+Share' title='Share to Pinterest' target='_blank' href='https://pinterest.com/pin/create/bookmarklet/?url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F&media=https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Social-Info.jpg'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-flipboard plausible-event-name=Flipboard+Share' title='Share to Flipboard' target='_blank' href='https://share.flipboard.com/bookmarklet/popout?v=2&title=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-mail plausible-event-name=Email+Share' title='Email this page'  href='mailto:?subject=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&body=Check%20out%20this:%20https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a></div>				</div>
+
+				<!-- Actions -->
+				<div class="meta-actions w-100 d-flex flex-wrap justify-content-center">
+					<div class='btn btn-primary pdf-button my-2 mx-2' id='pdf-button' >
+    <i class="fa-copy"></i> Save as PDF
+</div><div class="btn btn-secondary lbb-progress-button my-2 mx-2" data-post-id="33486278" data-action="subscribe" data-nonce=""><span class="lbb-progress-button-icon"><i class="fa fa-bookmark"></i></span><span class="lbb-progress-button-text">Not Started</span></div><button
+            class="lbb-favorite-button fa-heart " 
+            data-post-id="33486278" 
+            data-action="subscribe" aria-label="Favorite" 
+            aria-pressed="false"
+            title="Add to your favorites for easy access and update notifications"
+          >
+          <span class="sr-only">Favorite</span>
+          </button>				</div>
+				
+				<div class="affiliate-link-disclaimer text-center small">If you buy through our links, we may earn an affiliate commission. <a class="text-decoration-underline" href="https://pimylifeup.com/disclaimer-privacy-policy/?utm_source=disclosure#3-other-affiliate-programs">Learn More</a>.</div>			</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		
+<p class="has-text-align-center">In this tutorial, we will show you an easy way to set up a WireGuard VPN using Docker.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full"><img fetchpriority="high" decoding="async" width="728" height="400" src="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail.jpg" alt="WireGuard Docker" class="wp-image-33486294" srcset="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail.jpg 728w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Thumbnail-600x330.jpg 600w" sizes="(max-width: 728px) 100vw, 728px" /></figure>
+
+
+
+<p>WireGuard is a popular alternative to OpenVPN, known for being incredibly fast yet super secure. Thanks to its significantly smaller code base, it has a much smaller attack surface than its competing protocols.</p>
+
+
+
+<p>A VPN is a virtual private network that operates over a secure encrypted tunnel. Someone needs the encryption keys to snoop on the data within this tunnel while it&#8217;s in transit. There is a wide variety of uses for a VPN like WireGuard, such as accessing your home network when you are traveling.</p>
+
+
+
+<p>Traditionally, setting up WireGuard can be a bit of a messy experience. Luckily, Docker makes this significantly simpler.</p>
+
+
+
+<p>To improve the experience further, we will use a container called WG-Easy. This Docker container comes with WireGuard and a neat web interface that makes managing your VPN a breeze.</p>
+
+
+
+<p>Additionally, WG-Easy is a great choice since it contains full support for both X64 and ARM operating systems. So, you could even follow these <a href="https://pimylifeup.com/category/projects/">guides on your Raspberry Pi</a> if you wanted.</p>
+
+
+
+<div class="row p-3">
+    <div class="lbb-related-posts bg-dots d-flex flex-wrap responsive-container bg-light "><h2 class="col-12 mb-4 text-center position-relative pb-3"><span class="position-relative">You Might Also Like<span class="d-block mt-2 mx-auto"></span></span></h2><div class="pb-4 w-100">
+    <form role="search" method="get" class="searchform" action="https://pimylifeup.com/">
+        <div class="input-group input-group-lg shadow-sm rounded overflow-hidden">
+            <input type="text" class="form-control border-0" aria-label="Search" placeholder="Search for tutorials..." name="s" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary px-3">
+                    <i class="fa fa-search"></i><span class="d-none d-md-inline ml-2">Search</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div><div class="col-6 col-sm-3 blog-reel-post text-center"><a href="https://pimylifeup.com/raspberry-pi-wireguard/" class="plausible-event-name=Random+Post+Click+Content+Upper" title="Setting up a WireGuard VPN on the Raspberry Pi"><div class="thumbnail-wrapper"><span class="post-category-tag">Beginner</span><img width="150" height="150" src="https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-150x150.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Raspberry Pi WireGuard VPN" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-150x150.jpg 150w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-216x216.jpg 216w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-360x360.jpg 360w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-300x300.jpg 300w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-100x100.jpg 100w" sizes="auto, (max-width: 150px) 100vw, 150px" /></div><div class="content-wrapper"><span class="post-highlight related-post-smaller">Setting up a WireGuard VPN on the Raspberry Pi</span><span class="post-meta"><i class="fa fa-clock"></i> 9 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-3 blog-reel-post text-center"><a href="https://pimylifeup.com/openvpn-docker/" class="plausible-event-name=Random+Post+Click+Content+Upper" title="Running an OpenVPN VPN using Docker"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="150" height="150" src="https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-150x150.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="OpenVPN using Docker" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-150x150.jpg 150w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-216x216.jpg 216w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-360x360.jpg 360w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-300x300.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-100x100.jpg 100w" sizes="auto, (max-width: 150px) 100vw, 150px" /></div><div class="content-wrapper"><span class="post-highlight related-post-smaller">Running an OpenVPN VPN using Docker</span><span class="post-meta"><i class="fa fa-clock"></i> 6 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-3 blog-reel-post text-center"><a href="https://pimylifeup.com/ubuntu-wireguard-vpn-server/" class="plausible-event-name=Random+Post+Click+Content+Upper" title="Setting up a WireGuard VPN Server on Ubuntu with PiVPN"><div class="thumbnail-wrapper"><span class="post-category-tag">Ubuntu</span><img width="150" height="150" src="https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-150x150.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Ubuntu WireGuard VPN Server" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-150x150.jpg 150w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-216x216.jpg 216w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-360x360.jpg 360w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-300x300.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-100x100.jpg 100w" sizes="auto, (max-width: 150px) 100vw, 150px" /></div><div class="content-wrapper"><span class="post-highlight related-post-smaller">Setting up a WireGuard VPN Server on Ubuntu with PiVPN</span><span class="post-meta"><i class="fa fa-clock"></i> 10 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-3 blog-reel-post text-center"><a href="https://pimylifeup.com/vaultwarden-docker/" class="plausible-event-name=Random+Post+Click+Content+Upper" title="Setting up the Vaultwarden Docker Container"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="150" height="150" src="https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-150x150.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Vaultwarden Docker Compose" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-150x150.jpg 150w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-216x216.jpg 216w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-360x360.jpg 360w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-300x300.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-100x100.jpg 100w" sizes="auto, (max-width: 150px) 100vw, 150px" /></div><div class="content-wrapper"><span class="post-highlight related-post-smaller">Setting up the Vaultwarden Docker Container</span><span class="post-meta"><i class="fa fa-clock"></i> 8 min read</span><span class="read-more-btn">Read More →</span></div></a></div></div>
+</div><h2 class="wp-block-heading lbb-section-break mt-5 text-center" id="installing-wireguard-vpn-using-a-docker-container">Installing WireGuard VPN using a Docker Container</h2>
+
+
+
+<p>In the following sections, we will show how to run the WireGuard VPN using a Docker container.</p>
+
+
+
+<p>We will achieve this by writing a Compose file that utilizes the WG-Easy image. This image is an excellent choice as it makes setting up and controlling WireGuard straightforward.</p>
+
+
+
+<p>Below we have embedded a video that walks you through the whole set up process. However, if you prefer our written   content be sure to continue on.</p>
+
+
+<div class="embed-container embed-responsive embed-responsive-16by9"><iframe width="560" height="560" src="https://www.youtube.com/embed/3aRENOYwlcM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="installing-docker-to-your-machine">Installing Docker to your Machine</h3>
+
+
+
+<p><strong class="step_numbering">1.</strong> To run WireGuard using Docker, you will need to have Docker installed on your machine. You can skip to <strong>step 4</strong> if you already have Docker.</p>
+
+
+
+<p>If you are using a Linux-based operating system you can use the following command within the terminal.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >curl -sSL https://get.docker.com | sh</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">2.</strong> Once you have Docker installed, you will want to add your current user to the &#8220;<code>docker</code>&#8221; group. Adding your user to this group will allow you to stop and start the WireGuard Docker container without having to utilize the super user.</p>
+
+
+
+<p>You can make this change by using the command below.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">sudo</span> usermod -aG docker <span class="hljs-variable">$USER</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">3.</strong> Changes to users on Linux require you to log out and back in.</p>
+
+
+
+<p>If you are using SSH to connect to your machine, you can easily log out using the following command.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">logout</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p>Alternatively, you can restart your machine by running the command below.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">sudo</span> reboot</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="preparing-for-wireguard">Preparing for WireGuard</h3>
+
+
+
+<p><strong class="step_numbering">4.</strong> Since you are setting up a VPN, you must have your device accessible from outside your network.</p>
+
+
+
+<p>This likely means you must port forward on a home network and ensure your device has a static IP address.</p>
+
+
+
+<p>To access your WireGuard VPN from outside your network, you will want to open port &#8220;<code>51820</code>&#8220;. If you need to specify the protocol, then use &#8220;<code>UDP</code>&#8220;.</p>
+
+
+
+<p>We won&#8217;t be covering how to port forward as routers drastically differ.</p>
+
+
+
+<p><strong class="step_numbering">5.</strong> Our next step is to create a directory to store the Compose file for running WireGuard using Docker.</p>
+
+
+
+<p>It is also the same location we will be storing all of the configuration files for Wireguard. You can create a directory at &#8220;<code>/opt/stacks/wireguard</code>&#8221; by <a href="https://pimylifeup.com/mkdir-command-linux/">using the mkdir command</a>.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /opt/stacks/wireguard</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p>By using the &#8220;<code>-p</code>&#8221; option we are ensuring this command will create the entire path, rather than just attempt to make the ending path.</p>
+
+
+
+<p><strong class="step_numbering">6.</strong> After creating the directory, we will need to change into the folder by using the command below.</p>
+
+
+
+<p>For the rest of the tutorial, we expect that you are within this folder.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">cd</span> /opt/stacks/wireguard</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<h3 class="wp-block-heading lbb-section-break" id="generating-a-password-hash-for-your-wireguard-docker-container">Generating a Password Hash for your WireGuard Docker Container</h3>
+
+
+
+<p><strong class="step_numbering">7.</strong> Before we can begin to set up the Compose file for WireGuard, we will need to generate a quick hash for the password you intend on using. Luckily the Docker container has an easy script we can execute.</p>
+
+
+
+<p>Within the terminal, run the following command. While typing out this command, ensure that you replace &#8220;<code>&lt;PASSWORD&gt;</code>&#8221; with the password you intend on using to access the WG-Easy web interface.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >docker run --<span class="hljs-built_in">rm</span> -it ghcr.io/wg-easy/wg-easy wgpw <span class="hljs-string">&#x27;&lt;PASSWORD&gt;&#x27;</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p>For example, to generate a hash for the password &#8220;<code>pimylifeup</code>&#8221; we would run the command below.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header language-bash" heading-text="Password Example">docker run --<span class="hljs-built_in">rm</span> -it ghcr.io/wg-easy/wg-easy wgpw <span class="hljs-string">&#x27;pimylifeup&#x27;</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">8.</strong> After running the above command, you should end up with a line that looks somewha like what we have shown below.</p>
+
+
+
+<p>This is a bcrypt hash of your password. However, before this line can be used in the Docker Compose file, it requires some modifications.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header language-bash" heading-text="Example Password Line">PASSWORD_HASH=<span class="hljs-string">&#x27;$2b$12$coPqCsPtcFO.Ab99xylBNOW4.Iu7OOA2/ZIboHN6/oyxca3MWo7fW&#x27;</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">9.</strong> Before you write this password hash value down, remove the tw0 single quotes (<code>'</code>), and add an additional dollar sign (<code>$</code>) after each dollar sign.</p>
+
+
+
+<p>So, for example, our line above would turn into the following</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header language-bash" heading-text="Example Password Line">PASSWORD_HASH=$$2b$$12$<span class="hljs-variable">$coPqCsPtcFO</span>.Ab99xylBNOW4.Iu7OOA2/ZIboHN6/oyxca3MWo7fW</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="writing-a-docker-compose-file-for-wireguard">Writing a Docker Compose File for Wireguard</h3>
+
+
+
+<p><strong class="step_numbering">10.</strong> We are finally at the point where we can write the Docker Compose file for our WireGuard VPN. A Compose file is like a set of instructions that Docker will use to manage and run your WireGuard VPN.</p>
+
+
+
+<p>By running the following command, you can begin writing this file <a href="https://pimylifeup.com/nano-text-editor/">using the nano text editor</a>.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">sudo</span> nano compose.yaml</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">11.</strong> Within this file, you will want to type in the following lines.</p>
+
+
+
+<ul class="wp-block-list">
+<li><code>&lt;PASSWORD_HASH&gt;</code><strong>:</strong> Replace this placeholder with the value that you got earlier in on this guide. The password that was generated for this hash is what you will use to log in to the WG-Easy web interface.<br><br>This web interface is what you will be using to create and manage clients for your WireGuard VPN easily.<br><br>This line will end up looking a bit like what we have shown below. The hash should differ as your password and &#8220;<code>salt</code>&#8221; will be different.</li>
+</ul>
+
+
+
+<pre class="wp-block-code"><code class="header" heading-text="Example Hash in Compose">      - PASSWORD_HASH=$$2b$$12$$coPqCsPtcFO.Ab99xylBNOW4.Iu7OOA2/ZIboHN6/oyxca3MWo7fW</code></pre>
+
+
+
+<ul class="wp-block-list">
+<li><code>&lt;IPADDRESS&gt;</code><strong>:</strong> Next, specify the IP address or domain name where your VPN can be accessed.<br><br>The IP address must be your external one and not local. Additionally, if you use a domain name, you will want to ensure that it is pointed to where your WireGuard VPN is hosted.</li>
+</ul>
+
+
+
+<pre class="wp-block-code language-yaml"><code class="header add language-yaml" ><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">wg-easy:</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">wg-easy</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">ghcr.io/wg-easy/wg-easy</span>
+
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&lt;PASSWORD_HASH&gt;</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">WG_HOST=&lt;IPADDRESS&gt;</span>
+
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./config:/etc/wireguard</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/lib/modules:/lib/modules</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;51820:51820/udp&quot;</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;51821:51821/tcp&quot;</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">cap_add:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">NET_ADMIN</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">SYS_MODULE</span>
+    <span class="hljs-attr">sysctls:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">net.ipv4.ip_forward=1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">net.ipv4.conf.all.src_valid_mark=1</span></code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">12.</strong> After typing out the above lines, you can save and quit by pressing <kbd>CTRL</kbd> + <kbd>X</kbd>, <kbd>Y</kbd>, and finally, the <kbd>ENTER</kbd> key.</p>
+
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="starting-up-your-wireguard-docker-stack">Starting up your Wireguard Docker Stack</h3>
+
+
+
+<p><strong class="step_numbering">13.</strong> With the Compose file written, starting WireGuard using Docker is incredibly simple.</p>
+
+
+
+<p>To get our VPN up and running, we need to use the command below.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >docker compose up -d</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p>By using the &#8220;<code>-d</code>&#8221; option, we are telling Docker to detach from the terminal once it has started our WireGuard container.</p>
+
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="accessing-your-wireguard-docker-container-web-interface">Accessing your Wireguard Docker Container Web Interface</h3>
+
+
+
+<p><strong class="step_numbering">14.</strong> Before you can start using your new VPN, you will need to create a new client. Typically, this can be a bit of a pain, but the container we are using comes with a super easy-to-use web interface.</p>
+
+
+
+<p>To access this web interface, you will want to know the local IP address of your device. You can get this IP easily by <a href="https://pimylifeup.com/hostname-command/">using the hostname command</a>.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >hostname -I</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">15.</strong> Once you know your IP address, you can go to the following address to access the WG-Easy web interface.</p>
+
+
+
+<pre class="wp-block-code"><code class="header goto">http:&#47;&#47;&lt;IPADDRESS&gt;:51821</code></pre>
+
+
+
+<h3 class="wp-block-heading lbb-section-break mt-5" id="using-wg-easy-to-manage-your-wireguard-docker-container">Using WG-Easy to Manage your Wireguard Docker Container</h3>
+
+
+
+<p><strong class="step_numbering">16.</strong> You should now see the following screen asking you to log in to the WG-Easy web interface.</p>
+
+
+
+<p>First, you must type in the password you set earlier in this guide (<strong>1.</strong>).</p>
+
+
+
+<p>After typing in your password, simply <kbd>click</kbd> the &#8220;<code>Sign In</code>&#8221; button (<strong>2.</strong>) to access the web interface.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full"><img loading="lazy" decoding="async" width="728" height="400" src="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-01-Login-to-WG-Easy.jpg" alt="Login to WG-Easy web Interface" class="wp-image-33486281" srcset="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-01-Login-to-WG-Easy.jpg 728w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-01-Login-to-WG-Easy-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-01-Login-to-WG-Easy-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-01-Login-to-WG-Easy-600x330.jpg 600w" sizes="auto, (max-width: 728px) 100vw, 728px" /></figure>
+
+
+
+<p><strong class="step_numbering">17.</strong> Once you are logged in, you can create your first client for your WireGuard VPN Docker container.</p>
+
+
+
+<p>To begin this process, <kbd>click</kbd> the &#8220;<code>+ NEW</code>&#8221; or &#8220;<code>+ New Client</code>&#8221; button.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full"><img loading="lazy" decoding="async" width="728" height="400" src="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-02-Open-New-Client-Screen.jpg" alt="Open New Client Screen" class="wp-image-33486282" srcset="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-02-Open-New-Client-Screen.jpg 728w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-02-Open-New-Client-Screen-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-02-Open-New-Client-Screen-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-02-Open-New-Client-Screen-600x330.jpg 600w" sizes="auto, (max-width: 728px) 100vw, 728px" /></figure>
+
+
+
+<p><strong class="step_numbering">15.</strong> On this screen, you will now want to give a name to your new client (<strong>1.</strong>). Name this something so you know where this client is being utilized.</p>
+
+
+
+<p>After typing a name, <kbd>click</kbd> the &#8220;<code>Create</code>&#8221; button (<strong>2.</strong>).</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full"><img loading="lazy" decoding="async" width="728" height="400" src="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-03-Create-new-WireGuard-Client.jpg" alt="Create new WireGuard Docker Client" class="wp-image-33486283" srcset="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-03-Create-new-WireGuard-Client.jpg 728w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-03-Create-new-WireGuard-Client-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-03-Create-new-WireGuard-Client-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-03-Create-new-WireGuard-Client-600x330.jpg 600w" sizes="auto, (max-width: 728px) 100vw, 728px" /></figure>
+
+
+
+<p><strong class="step_numbering">16.</strong> At this point, you finally have WireGuard up and running using a Docker container. You can now download your client details and connect to your VPN.</p>
+
+
+
+<p>The WG-Easy web interface we are using allows you to generate a QR code (<strong>2.</strong>) for easy adding of your client. </p>
+
+
+
+<p>You can also download the config files if your client doesn&#8217;t support scanning QR codes (<strong>3.</strong>).</p>
+
+
+
+<p>If you want to stop a client from accessing your WireGuard VPN, you can click the toggle (<strong>1.</strong>).</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full"><img loading="lazy" decoding="async" width="728" height="400" src="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-04-Control-WireGuard-VPN-Client.jpg" alt="Get WireGuard Docker Client Details" class="wp-image-33486284" srcset="https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-04-Control-WireGuard-VPN-Client.jpg 728w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-04-Control-WireGuard-VPN-Client-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-04-Control-WireGuard-VPN-Client-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-04-Control-WireGuard-VPN-Client-600x330.jpg 600w" sizes="auto, (max-width: 728px) 100vw, 728px" /></figure>
+
+
+
+<h2 class="wp-block-heading lbb-section-break mt-5 text-center" id="updating-your-wireguard-docker-container">Updating your WireGuard Docker Container</h2>
+
+
+
+<p>One of the advantages of running your WireGuard VPN using Docker is that you can easily update to the latest available version with ease.</p>
+
+
+
+<p>Over the following steps, we will show you just how easy it is to update to a newer version.</p>
+
+
+
+<p><strong class="step_numbering">1.</strong> Your first step is to change to the directory where we wrote the Compose file for WireGuard earlier on in this guide.</p>
+
+
+
+<p>Changing to this directory is as easy as typing in the following command.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" ><span class="hljs-built_in">cd</span> /opt/stacks/wireguard</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">2.</strong> Once you are in the correct place, you will want to tell Docker to pull the new version of all images specified within the compose file.</p>
+
+
+
+<p>You can download the latest version of WG-easy and WireGuard by using the command below.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >docker compose pull</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<p><strong class="step_numbering">3.</strong> Even though Docker downloaded a new version of WireGuard, you will need to get it to actually use it.</p>
+
+
+
+<p>Luckily, you can start your Compose file again, and Docker will automatically power down your VPN and start it again using the new image.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code class="header terminal language-bash" >docker compose up -d</code><a class="copy-code-block fa-copy" href="#copy" aria-label="Copy code to clipboard">Copy</a></pre>
+
+
+
+<h2 class="wp-block-heading lbb-section-break mt-5 text-center" id="conclusion">Conclusion</h2>
+
+
+
+<p>Hopefully, at this point in the guide, you will now have your WireGuard Docker container up and running.</p>
+
+
+
+<p>Using Docker to run WireGuard allows you to quickly get your VPN up and running while also making it super easy to update and restart. If your VPN crashes, Docker will automatically restart the software.</p>
+
+
+
+<p>Please feel free to comment below if you have any questions about running WireGuard through a Docker Container.</p>
+
+
+
+<p>If you found this tutorial to be helpful, we highly recommend checking <a href="https://pimylifeup.com/category/linux/linux-guides/">out our many other guides</a>.</p>
+<div class='social-share-links mx-2 mt-5 justify-content-center'><a rel='nofollow noopener noreferrer' class='social-share-button fa-facebook plausible-event-name=Facebook+Share+Bottom' title='Share to Facebook' target='_blank' href='https://www.facebook.com/sharer.php?u=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-twitter plausible-event-name=X+Share+Bottom' title='Share to X' target='_blank' href='https://x.com/intent/tweet?text=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-pinterest plausible-event-name=Pinterest+Share+Bottom' title='Share to Pinterest' target='_blank' href='https://pinterest.com/pin/create/bookmarklet/?url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F&media=https://pimylifeup.com/wp-content/uploads/2024/01/WireGuard-Docker-Social-Info.jpg'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-flipboard plausible-event-name=Flipboard+Share' title='Share to Flipboard' target='_blank' href='https://share.flipboard.com/bookmarklet/popout?v=2&title=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&url=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a><a rel='nofollow noopener noreferrer' class='social-share-button fa-mail plausible-event-name=Email+Share+Bottom' title='Email this page'  href='mailto:?subject=Setting%20up%20a%20WireGuard%20VPN%20using%20Docker&body=Check%20out%20this:%20https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F'></a></div><div class="lbb-related-posts bg-dots d-flex flex-wrap responsive-container  mt-5"><h2 class="col-12 mb-4 text-center position-relative pb-3"><span class="position-relative">Recommended<span class="d-block mt-2 mx-auto"></span></span></h2><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/raspberry-pi-wireguard/" class="plausible-event-name=Random+Post+Click" title="Setting up a WireGuard VPN on the Raspberry Pi"><div class="thumbnail-wrapper"><span class="post-category-tag">Beginner</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Raspberry Pi WireGuard VPN" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2020/07/Raspberry-Pi-WireGuard-VPN-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Setting up a WireGuard VPN on the Raspberry Pi</span><span class="post-meta"><i class="fa fa-clock"></i> 9 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/docker-nordvpn/" class="plausible-event-name=Random+Post+Click" title="Routing your Docker Containers through NordVPN"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2024/08/NordVPN-Docker-Container-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="NordVPN Docker Container" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/08/NordVPN-Docker-Container-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/08/NordVPN-Docker-Container-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/08/NordVPN-Docker-Container-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2024/08/NordVPN-Docker-Container-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Routing your Docker Containers through NordVPN</span><span class="post-meta"><i class="fa fa-clock"></i> 7 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/docker-gluetun/" class="plausible-event-name=Random+Post+Click" title="Route your Docker Containers through a VPN with Gluetun"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2024/09/Docker-Gluetun-VPN-Client-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Docker Gluetun VPN Client" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/09/Docker-Gluetun-VPN-Client-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/09/Docker-Gluetun-VPN-Client-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/09/Docker-Gluetun-VPN-Client-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2024/09/Docker-Gluetun-VPN-Client-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Route your Docker Containers through a VPN with Gluetun</span><span class="post-meta"><i class="fa fa-clock"></i> 10 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/vaultwarden-docker/" class="plausible-event-name=Random+Post+Click" title="Setting up the Vaultwarden Docker Container"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Vaultwarden Docker Compose" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2024/04/Vaultwarden-Docker-Compose-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Setting up the Vaultwarden Docker Container</span><span class="post-meta"><i class="fa fa-clock"></i> 8 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/ubuntu-wireguard-vpn-server/" class="plausible-event-name=Random+Post+Click" title="Setting up a WireGuard VPN Server on Ubuntu with PiVPN"><div class="thumbnail-wrapper"><span class="post-category-tag">Ubuntu</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="Ubuntu WireGuard VPN Server" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2024/10/Ubuntu-WireGuard-VPN-Server-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Setting up a WireGuard VPN Server on Ubuntu with PiVPN</span><span class="post-meta"><i class="fa fa-clock"></i> 10 min read</span><span class="read-more-btn">Read More →</span></div></a></div><div class="col-6 col-sm-4 blog-reel-post text-center"><a href="https://pimylifeup.com/openvpn-docker/" class="plausible-event-name=Random+Post+Click" title="Running an OpenVPN VPN using Docker"><div class="thumbnail-wrapper"><span class="post-category-tag">Docker</span><img width="227" height="125" src="https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-227x125.jpg" class="d-block mx-auto post-thumbnail wp-post-image" alt="OpenVPN using Docker" decoding="async" loading="lazy" srcset="https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-227x125.jpg 227w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-300x165.jpg 300w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM-600x330.jpg 600w, https://pimylifeup.com/wp-content/uploads/2024/06/OpenVPN-using-Docker-Thumbnail-NoWM.jpg 728w" sizes="auto, (max-width: 227px) 100vw, 227px" /></div><div class="content-wrapper"><span class="post-highlight ">Running an OpenVPN VPN using Docker</span><span class="post-meta"><i class="fa fa-clock"></i> 6 min read</span><span class="read-more-btn">Read More →</span></div></a></div></div>	</div><!-- .entry-content -->
+</article><!-- #post-33486278 -->
+
+<div id="comments" class="comments-area mt-5 pb-1">
+	<div class="row comment-form-outer"><div class="premium-comment-promotion bg-dots">
+            <div class="promotion-content">
+                <div class="promotion-icon">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="promotion-text">
+                    <p><strong>Need faster help?</strong> Premium members get priority responses to their comments.</p>
+                    <a href="https://pimylifeup.com/subscribe/" class="premium-promotion-link">
+                        <i class="fa fa-star"></i>
+                        Upgrade for Priority Support
+                    </a>
+                </div>
+            </div>
+        </div>	<div id="respond" class="comment-respond col-12 mb-4">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" class="btn btn-danger" href="/wireguard-docker/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://pimylifeup.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment form-group"><textarea id="comment" class="form-control" name="comment" placeholder="Comment" rows="8" maxlength="65525" required></textarea></p><div class="row mb-4"><div class="comment-form-author col-sm-6 col-12"><label for="author">Name <span class="required">*</span></label> <input id="author" class="form-control" name="author" type="text" value="" size="30" maxlength="245" required='required' /></div>
+<div class="comment-form-email col-sm-6 col-12"><label for="email">Email <span class="required">*</span></label> <input id="email" class="form-control" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></div></div>
+
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="btn btn-primary" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='33486278' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p></form>	</div><!-- #respond -->
+	</div>		<h2 class="comments-title my-3 fa-comments">9 Comments</h2><!-- .comments-title -->
+
+		<ol class="comment-list text-break">
+			
+            <li id="comment-95465" class="comment even thread-even depth-1">
+            <article id="div-comment-95465" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Dan' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(20%2c%2050%25%2c%2045%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(20%2c%2040%25%2c%2090%25)'/%3e%3crect%20x='1'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='4'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Dan</b> <span class="says">on</span>                                <time datetime="2025-05-09T21:45:39+10:00">
+                                May 9, 2025 at 9:45 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Great instructions even for an 82 year old guy</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-95465" data-commentid="95465" data-postid="33486278" data-belowelement="div-comment-95465" data-respondelement="respond" data-replyto="Reply to Dan" aria-label="Reply to Dan">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+
+            <li id="comment-94828" class="comment odd alt thread-odd thread-alt depth-1">
+            <article id="div-comment-94828" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Mary Periasamy' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(240%2c%2050%25%2c%2050%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(240%2c%2040%25%2c%2091%25)'/%3e%3crect%20x='0'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='4'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Mary Periasamy</b> <span class="says">on</span>                                <time datetime="2025-02-06T12:41:29+11:00">
+                                February 6, 2025 at 12:41 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>works great!<br />
+the only change I needed to make was to change the version to<br />
+version: &#8220;3.3&#8221;</p>
+<p>maybe I have an old version of docker-compose</p>
+<p>thanks!</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94828" data-commentid="94828" data-postid="33486278" data-belowelement="div-comment-94828" data-respondelement="respond" data-replyto="Reply to Mary Periasamy" aria-label="Reply to Mary Periasamy">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+
+            <li id="comment-94714" class="comment even thread-even depth-1">
+            <article id="div-comment-94714" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for LavaCake' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(140%2c%2050%25%2c%2042%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(140%2c%2040%25%2c%2091%25)'/%3e%3crect%20x='1'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='4'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">LavaCake</b> <span class="says">on</span>                                <time datetime="2025-01-25T10:31:10+11:00">
+                                January 25, 2025 at 10:31 am                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Love this. Thank you</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94714" data-commentid="94714" data-postid="33486278" data-belowelement="div-comment-94714" data-respondelement="respond" data-replyto="Reply to LavaCake" aria-label="Reply to LavaCake">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+
+            <li id="comment-94540" class="comment odd alt thread-odd thread-alt depth-1 parent ">
+            <article id="div-comment-94540" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Mohammed' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(60%2c%2070%25%2c%2040%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(60%2c%2060%25%2c%2090%25)'/%3e%3crect%20x='1'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='4'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Mohammed</b> <span class="says">on</span>                                <time datetime="2025-01-05T18:22:40+11:00">
+                                January 5, 2025 at 6:22 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>For &#8220;WG_HOST=&#8221;, would this be the static ip of the raspberry device?</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94540" data-commentid="94540" data-postid="33486278" data-belowelement="div-comment-94540" data-respondelement="respond" data-replyto="Reply to Mohammed" aria-label="Reply to Mohammed">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            <ol class="children">
+
+            <li id="comment-94541" class="comment byuser comment-author-death-droid bypostauthor even depth-2 editor-comment">
+            <article id="div-comment-94541" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Emmet' src="https://pimylifeup.com/wp-content/uploads/2025/03/Emmet-Young-Profile-Pic-Smaller-lbb-avatar.jpg" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Emmet</b> <span class="says">on</span>                                <time datetime="2025-01-05T19:29:03+11:00">
+                                January 5, 2025 at 7:29 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                                                <div class="comment-buttons row">
+                            <div class="col-12">
+                                <span class="btn-sm btn btn-danger fa-shield-alt">Editor</span>
+                                                            </div>
+                        </div>
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Hi Mohammed,</p>
+<p>This should be set to the address from which your device can be reached. In most home cases this will be your external IP address. You will then have to set up port forwarding in your router so that it routes connections to the port 51820 to your Raspberry Pi.</p>
+<p>Hopefully that helps you with working out what you need to set here.</p>
+<p>Kind regards,<br />
+Emmet</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94541" data-commentid="94540" data-postid="33486278" data-belowelement="div-comment-94541" data-respondelement="respond" data-replyto="Reply to Emmet" aria-label="Reply to Emmet">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+
+            <li id="comment-94542" class="comment odd alt depth-2 parent ">
+            <article id="div-comment-94542" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Mohammed' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(60%2c%2070%25%2c%2040%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(60%2c%2060%25%2c%2090%25)'/%3e%3crect%20x='1'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='4'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='4'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Mohammed</b> <span class="says">on</span>                                <time datetime="2025-01-05T20:09:09+11:00">
+                                January 5, 2025 at 8:09 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>If my external ip (WAN ip I think?) changes due to my ISP, should I use Dynamic DNS services like DuckDNS or would using my own domain and CloudFlare Tunnel a good alternative?</p>
+<p>Thanks for the help!</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94542" data-commentid="94540" data-postid="33486278" data-belowelement="div-comment-94542" data-respondelement="respond" data-replyto="Reply to Mohammed" aria-label="Reply to Mohammed">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+
+            <li id="comment-94543" class="comment byuser comment-author-death-droid bypostauthor even depth-2 editor-comment">
+            <article id="div-comment-94543" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Emmet' src="https://pimylifeup.com/wp-content/uploads/2025/03/Emmet-Young-Profile-Pic-Smaller-lbb-avatar.jpg" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Emmet</b> <span class="says">on</span>                                <time datetime="2025-01-05T20:25:42+11:00">
+                                January 5, 2025 at 8:25 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                                                <div class="comment-buttons row">
+                            <div class="col-12">
+                                <span class="btn-sm btn btn-danger fa-shield-alt">Editor</span>
+                                                            </div>
+                        </div>
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Hi Mohammed,</p>
+<p>Yes, I would definitely recommend setting up dynamic DNS, its usually something pretty simple to set up and will save you a lot of pain down the road if your IP address changes.</p>
+<p>The free version of Cloudflare Tunnel is really only aimed at dealing with HTTP and HTTPS traffic. Anything else they expect you to be using an enterprise plan. A good alternative to that however would be to <a href="https://pimylifeup.com/ubuntu-tailscale/" rel="ugc">use something like Tailscale</a>. It would also save you the hassle of having to worry about setting up dynamic DNS.</p>
+<p>Kind regards,<br />
+Emmet</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94543" data-commentid="94542" data-postid="33486278" data-belowelement="div-comment-94543" data-respondelement="respond" data-replyto="Reply to Emmet" aria-label="Reply to Emmet">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+
+            <li id="comment-94218" class="comment odd alt thread-even depth-1 parent ">
+            <article id="div-comment-94218" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Chris' src="data:image/svg+xml,%3csvg%20viewBox='0%200%205%205'%20xmlns='http://www.w3.org/2000/svg'%20fill='hsl(270%2c%2050%25%2c%2055%25)'%3e%3crect%20width='100%25'%20height='100%25'%20fill='hsl(270%2c%2040%25%2c%2093%25)'/%3e%3crect%20x='1'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='0'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='1'%20width='1'%20height='1'/%3e%3crect%20x='0'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='4'%20y='2'%20width='1'%20height='1'/%3e%3crect%20x='1'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='3'%20y='3'%20width='1'%20height='1'/%3e%3crect%20x='2'%20y='3'%20width='1'%20height='1'/%3e%3c/svg%3e" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Chris</b> <span class="says">on</span>                                <time datetime="2024-11-26T05:36:27+11:00">
+                                November 26, 2024 at 5:36 am                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Note that PASSWORD= is no longer supported by wg-easy, the container won&#8217;t start up. You *need* to use PASSWORD_HASH instead, see</p>
+<p><a href="https://github.com/wg-easy/wg-easy/blob/master/How_to_generate_an_bcrypt_hash.md" rel="nofollow ugc">https://github.com/wg-easy/wg-easy/blob/master/How_to_generate_an_bcrypt_hash.md</a></p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94218" data-commentid="94218" data-postid="33486278" data-belowelement="div-comment-94218" data-respondelement="respond" data-replyto="Reply to Chris" aria-label="Reply to Chris">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            <ol class="children">
+
+            <li id="comment-94231" class="comment byuser comment-author-death-droid bypostauthor even depth-2 editor-comment">
+            <article id="div-comment-94231" class="comment-body">
+                <footer class="comment-meta row align-items-center">
+                    <div class="comment-avatar col-3 col-md-2 text-center">
+                        <img alt='Avatar for Emmet' src="https://pimylifeup.com/wp-content/uploads/2025/03/Emmet-Young-Profile-Pic-Smaller-lbb-avatar.jpg" class='avatar avatar-80 photo' height='80' width='80' loading='lazy'/>                    </div>
+                    <div class="col-9 col-md-10">
+                        <div class="comment-author vcard row">
+                            <div class="col-12">
+                                <b class="fn">Emmet</b> <span class="says">on</span>                                <time datetime="2024-11-27T21:57:36+11:00">
+                                November 27, 2024 at 9:57 pm                                </time>
+                            </div>
+                        </div><!-- .comment-author -->
+
+                                                <div class="comment-buttons row">
+                            <div class="col-12">
+                                <span class="btn-sm btn btn-danger fa-shield-alt">Editor</span>
+                                                            </div>
+                        </div>
+                        
+                                            </div>
+
+
+                </footer><!-- .comment-meta -->
+
+                <div class="comment-content row">
+                    <div class="col-12">
+                    <p>Hi Chris,</p>
+<p>Thanks for the heads up about that. I have updated the guide to now reference generating a password hash instead.</p>
+<p>Kind regards,<br />
+Emmet</p>
+                    <div class="reply"><a rel="nofollow" class="comment-reply-link btn-sm px-3 btn-primary" href="#comment-94231" data-commentid="94218" data-postid="33486278" data-belowelement="div-comment-94231" data-respondelement="respond" data-replyto="Reply to Emmet" aria-label="Reply to Emmet">Reply</a></div>                    </div>
+                </div><!-- .comment-content -->
+            </article><!-- .comment-body -->
+            </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+</div><!-- #comments -->
+
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+<aside id="sidebar" class="widget-area col-lg-4">
+	<section id="lbb_compact_search-2" class="widget mb-3 widget_compact_search"><h2 class="widget-title border-underline-left my-2">Search</h2>		<form role="search" method="get" class="compact-search-form" action="https://pimylifeup.com/">
+			<div class="input-group">
+				<input type="text" class="form-control" aria-label="Search" 
+				       placeholder="Search &hellip;" 
+				       value="" name="s" />
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-red">
+						<i class="fa-search" aria-hidden="true"></i>
+						<span class="screen-reader-text">Search</span>
+					</button>
+				</div>
+			</div>
+		</form>
+		</section></aside><!-- #secondary -->
+        </div>
+    </div><!-- #content -->
+
+    <footer id="colophon" class="site-footer">
+        <div class="site-info container">
+            <div class="footer-grid">
+                <div class="footer-branding">
+                    <div class="footer-logo">
+                        <span class="site-title">Pi My Life Up</span>
+                    </div>
+                    <div class="copyright">
+                        &copy; 2025 Pi My Life Up
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3 class="footer-heading">Links</h3>
+                    <ul class="footer-menu">
+                        <li><a href="https://pimylifeup.com/disclaimer-privacy-policy/">Disclaimer &amp; Privacy Policy</a></li>
+                        <li><a href="https://pimylifeup.com/about-us/">About Us</a></li>
+                        <li><a href="https://pimylifeup.com/contact/">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h3 class="footer-heading">Connect With Us</h3>
+                    <div class="social-nav social-share-links">
+                        <a href="https://www.facebook.com/pimylifeup" title="Follow us on Facebook" class="social-share-button fa-facebook" ></a><a href="https://x.com/pimylifeup" title="Follow us on X" class="social-share-button fa-twitter" ></a><a href="https://www.pinterest.com/pimylifeup" title="Follow us on Pinterest" class="social-share-button fa-pinterest" ></a><a href="https://www.instagram.com/pimylifeup/" title="Follow us on Instagram" class="social-share-button fa-instagram" ></a><a href="https://www.youtube.com/channel/UC7NMrNa-RgcVeD__l_uPJTg" title="Subscribe to us on Youtube" class="social-share-button fa-youtube-play" ></a><a href="https://mastodon.social/@pimylifeup" title="Follow us on Mastodon" class="social-share-button fa-mastodon" rel="me"></a><a href="https://pimylifeup.com/feed/" title="Follow our Feed" class="social-share-button fa-rss" ></a>                    </div>
+                </div>
+            </div>
+        </div><!-- .site-info -->
+        
+        <div class="back-to-top-wrapper">
+            <a href="#" class="back-to-top-link" aria-label="Scroll to top">
+                <span class="back-icon"></span>
+                <span class="back-text">Back to Top</span>
+            </a>
+        </div>
+    </footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/lbb-theme-pimylifeup\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<link rel='stylesheet' id='wc-stripe-blocks-checkout-style-css' href='https://pimylifeup.com/wp-content/plugins/woocommerce-gateway-stripe/build/upe-blocks.css?ver=37f68a8beb4edffe75197731eda158fd' media='all' />
+<script id="lbb-theme-bootstrap-js-extra">
+var lbbFavorites = {"ajax_url":"https:\/\/pimylifeup.com\/wp-admin\/admin-ajax.php","nonce":"126d797abb","login_url":"https:\/\/pimylifeup.com\/wp-login.php?redirect_to=https%3A%2F%2Fpimylifeup.com%2Fwireguard-docker%2F","subscribe_url":"https:\/\/pimylifeup.com\/subscribe\/","subscribe_message":"Premium subscribers can save their favorite tutorials for easy access. Please subscribe to Premium to use this feature, or log in if you already have a subscription.","login_message":"Please log in to favorite posts. This allows you to save your favorite tutorials for easy access.","add_success":"Added to your favorites! Access anytime from your account.","remove_success":"Removed from your favorites","updates_info":"You'll receive notifications about updates to this tutorial"};
+</script>
+<script src="https://pimylifeup.com/wp-content/themes/lbb-theme-pimylifeup/js/bundle.min.js?ver=1.4.31" id="lbb-theme-bootstrap-js"></script>
+<script src="https://pimylifeup.com/wp-includes/js/comment-reply.min.js?ver=6.8.2" id="comment-reply-js" async data-wp-strategy="async"></script>
+<script>!function(e){const r={"Europe/Brussels":"gdpr","Europe/Sofia":"gdpr","Europe/Prague":"gdpr","Europe/Copenhagen":"gdpr","Europe/Berlin":"gdpr","Europe/Tallinn":"gdpr","Europe/Dublin":"gdpr","Europe/Athens":"gdpr","Europe/Madrid":"gdpr","Africa/Ceuta":"gdpr","Europe/Paris":"gdpr","Europe/Zagreb":"gdpr","Europe/Rome":"gdpr","Asia/Nicosia":"gdpr","Europe/Nicosia":"gdpr","Europe/Riga":"gdpr","Europe/Vilnius":"gdpr","Europe/Luxembourg":"gdpr","Europe/Budapest":"gdpr","Europe/Malta":"gdpr","Europe/Amsterdam":"gdpr","Europe/Vienna":"gdpr","Europe/Warsaw":"gdpr","Europe/Lisbon":"gdpr","Atlantic/Madeira":"gdpr","Europe/Bucharest":"gdpr","Europe/Ljubljana":"gdpr","Europe/Bratislava":"gdpr","Europe/Helsinki":"gdpr","Europe/Stockholm":"gdpr","Europe/London":"gdpr","Europe/Vaduz":"gdpr","Atlantic/Reykjavik":"gdpr","Europe/Oslo":"gdpr","Europe/Istanbul":"gdpr","Europe/Zurich":"gdpr"},p=(()=>{const e=Intl.DateTimeFormat().resolvedOptions().timeZone;return r[e]||null})();if(null===p||"gdpr"!==p){const r="__adblocker";if(-1===e.cookie.indexOf(r)){const p=new XMLHttpRequest;p.open("GET","https://ads.adthrive.com/abd/abd.js",!0),p.onreadystatechange=function(){if(XMLHttpRequest.DONE===p.readyState)if(200===p.status){const r=e.createElement("script");r.innerHTML=p.responseText,e.getElementsByTagName("head")[0].appendChild(r)}else{const p=new Date;p.setTime(p.getTime()+3e5),e.cookie=r+"=true; expires="+p.toUTCString()+"; path=/"}},p.send()}}}(document);</script><script>!function(e){(function(){var n,t;function r(){var n=e.createElement("script");n.src="https://cafemedia-com.videoplayerhub.com/galleryplayer.js",e.head.appendChild(n)}function a(){var n=e.cookie.match("(^|[^;]+)\\s*__adblocker\\s*=\\s*([^;]+)");return n&&n.pop()}function c(){clearInterval(t)}return{init:function(){var e;"true"===(n=a())?r():(e=0,t=setInterval(function(){100!==e&&"false"!==n||c(),"true"===n&&(r(),c()),n=a(),e++},50))}}})().init()}(document);</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984419aa78ff0b58',t:'MTc1ODczNTk3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"984419aa78ff0b58","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"d72025be5ff748259ccab89dcaeb9214"}' crossorigin="anonymous"></script>
+</body>
+</html>
